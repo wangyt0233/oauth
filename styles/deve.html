@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>湖北省工商行政管理局_首页</title>
+    <link rel="shortcut icon" href="images/ico.png" />
+    <link rel="stylesheet" type="text/css" href="styles/common.css" />
+    <link rel="stylesheet" type="text/css" href="styles/uc.css" />
+    <link rel="stylesheet" href="../core/miniui/themes/default/miniui.css">
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+</head>
+
+<body>
+<div class="where">
+    <h2 class="t1"><b>完善信息</b></h2>
+    <div class="crumbs"><a href="#" class="home">用户中心</a>/<span class="current">完善信息</span></div>
+</div>
+<div class="pane">
+    <div class="note">
+        <p>请完善下列信息</p>
+    </div>
+    <div class="jr-forms">
+        <ul>
+            <li>
+                <label for="" style="width: 10em" >姓名</label>
+                <input type="text" class="inp" id="name" value="" style="min-width: 250px" disabled>
+            </li>
+            <li>
+                <label for="" style="width: 10em" >电话</label>
+                <input type="tel" class="inp" style="min-width: 250px" disabled id="tel">
+            </li>
+            <li>
+                <label for="" style="width: 10em">企业名称</label>
+                <input type="text" class="inp" style="min-width: 250px" id="corName">
+            </li>
+            <li>
+                <label for="" style="width: 10em">统一社会信用代码</label>
+                <input type="text" class="inp" style="min-width: 250px" id="code">
+            </li>
+            <li>
+                <label for="" style="width: 10em">营业执照上传</label>
+                <button class="btn btn-small btn-lakeblue" id="file">点击上传</button>
+                <a href="#" class="btn btn-small btn-lakeblue " id="img" style="background: orange;opacity: 0">点击查看</a>
+            </li>
+        </ul>
+        <div class="btns">
+            <input type="button" class="btn"  id="submit" value="提交">
+
+        </div>
+    </div>
+    <div class="jr-forms hide">
+        <img src="" alt="">
+    </div>
+</div>
+<!--js-->
+<script type="text/javascript" src="js/iframeResizer.contentWindow.min.js"></script>
+<script type="text/javascript" src="../core/miniui/miniui.js"></script>
+<script type="text/javascript" src="layer/layer.js"></script>
+<script type="text/javascript" src="../core/script/validate.js"></script>
+<script type="text/javascript" src="../core/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="../scripts/document/preview.js"></script>
+<script>
+    //Dom option
+    $(document).ready(function() {
+        var phoneNum = sessionStorage.getItem("phoneNum");
+        var name = sessionStorage.getItem("name");
+        $("#name").val(name);
+        $("#tel").val(phoneNum);
+        var bol = false;
+
+
+        //图片上传
+        $("#file").click(function() {
+
+            var data = {
+                basePath: "/HTEIP-page/",
+                title: '营业执照',
+                width: 500,
+                height: 270,
+                type: 'image',
+                savePath: '/legalAuth/images/',
+                fileNum: 1,
+                size: 1
+
+            };
+            uploadFile(data, function(file){
+                URL = file[0].downloadUrl;
+                var url = file[0].downloadUrl;
+                url = url.replace('fileupload/downloadfile', 'nonlogin/fileupload/downloadfile');
+                bol =  true;
+                var imgUrl = 'http://localhost/HTEIP-page/'+url;
+                //1. 转换URL
+                //2. href
+                $("#img").css("opacity",1);
+                $("#img").click(function () {
+                    top.layer.open({
+                        title:"营业执照",
+                        type: 1,
+                        area: ['600px', '560px'],
+                        shadeClose: true,
+                        btn:"关闭",function(){
+                            top.layer.closeAll();
+                        },
+                        content: '<div id="" class="layui-layer-content"><div id="tong" class="hide layui-layer-wrap" style="display: block;"><img width="550" height="400" src="'+imgUrl+'"></div></div>'
+                    })
+                });
+
+
+            });
+        });
+
+        //提交开发者申请
+
+        $("#submit").on('click',function () {
+            var $name = $("#name").val();
+            var $tel = $("#tel").val();
+            var $corName = $("#corName").val();
+            var $code = $("#code").val();
+            var reg = /[0-9A-HJ-NPQRTUWXY]{2}\d{6}[0-9A-HJ-NPQRTUWXY]{10}/;
+            if(!$corName){
+                    $(".note p").text("企业名称不能为空");
+                    return;
+                }else if(!$code){
+                    $(".note p").text("统一社会信用代码不能为空");
+                    return;
+            }else if(!reg.test($code)) {
+                $(".note p").text("统一社会信用代码不合法");
+                return;
+            }else if(bol == false) {
+                $(".note p").text("请上传营业执照");
+                return;
+            }
+            var param = {
+                userName:$name,
+                phoneNumber:$tel,
+                legelEntername:$corName,
+                unitCode:$code,
+                eleLicense:URL
+            }
+            var JsonParam = JSON.stringify(param);
+            $.ajax({
+                    async : false,
+                    type:"POST",
+                    url:'/HTEIP-page/userDev/doDevAuth.htm',
+                    data:{
+                        form:JsonParam
+                    },
+                    success:function(res){
+                        console.log(res);
+                        if(res.code == "200"){
+                            window.location.href = "/HTEIP-page/oauth/files.html";
+
+                        }
+
+
+                    },
+                    error:function(err){
+                        console.log("error:"+err.msg);
+                    }
+
+                });
+
+
+
+        });
+
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>湖北省工商行政管理局_首页</title>
+<link rel="shortcut icon" href="images/ico.png" />
+<link rel="stylesheet" type="text/css" href="styles/common.css" />
+<link rel="stylesheet" type="text/css" href="styles/uc.css" />
+<link rel="stylesheet" type="text/css" href="styles/layer.css" />
+<style type="text/css">
+.pane-bd {
+	min-height: 220px;
+}
+.add-item {
+	line-height: 180px;
+	text-align: center;
+}
+.add-item i.icon {
+	font-size: 100px;
+	color: #ddd;
+}
+</style>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+</head>
+
+<body>
+<div class="where">
+ <h2 class="t1"><b>我的订阅</b></h2>
+ <div class="crumbs"><a href="#" class="home">用户中心</a>/<span class="current">我的订阅</span></div>
+</div>
+<div class="grid col-3">
+ <div class="col">
+  <div class="pane pane-bd">
+   <h3 class="t3"><a href="#" class="btn btn-mini btn-normal fr"><i class="i-add"></i></a><b>通知公告</b></h3>
+   <ul class="list-t">
+    <li><a href="faq.html">2017年4月湖北商标受理窗口发票信息</a></li>
+    <li><a href="#">2017年4月湖北商标受理窗口发票信息</a></li>
+    <li><a href="#">2017年4月湖北商标受理窗口发票信息</a></li>
+    <li><a href="#">2017年4月湖北商标受理窗口发票信息</a></li>
+    <li><a href="#">2017年4月湖北商标受理窗口发票信息</a></li>
+   </ul>
+  </div>
+ </div>
+ <div class="col">
+  <div class="pane pane-bd">
+   <p class="tc"><a href="#" class="add-item"><i class="icon i-add">+</i></a></p>
+  </div>
+ </div>
+ <div class="col">
+  <div class="pane pane-bd">
+   <p class="tc"><a href="#" class="add-item"><i class="icon i-add">+</i></a></p>
+  </div>
+ </div>
+ <div class="col">
+  <div class="pane pane-bd">
+   <p class="tc"><a href="#" class="add-item"><i class="icon i-add">+</i></a></p>
+  </div>
+ </div>
+ <div class="col">
+  <div class="pane pane-bd">
+   <p class="tc"><a href="#" class="add-item"><i class="icon i-add">+</i></a></p>
+  </div>
+ </div>
+ <div class="col">
+  <div class="pane pane-bd">
+   <p class="tc"><a href="#" class="add-item"><i class="icon i-add">+</i></a></p>
+  </div>
+ </div>
+</div>
+
+<!--选择添加栏目-->
+<div class="choice hide">
+ <ul class="h">
+  <li><a href="#">省局要闻</a></li>
+  <li><a href="#">通知公告</a></li>
+  <li><a href="#">市州动态</a></li>
+  <li><a href="#">商品质量抽检</a></li>
+  <li><a href="#">消费警示</a></li>
+  <li><a href="#">广告监测信息</a></li>
+  <li><a href="#">著名商标公示</a></li>
+  <li><a href="#">守信企业公示</a></li>
+  <li><a href="#">市场主体分析</a></li>
+  <li><a href="#">服务发展</a></li>
+  <li><a href="#">监管执法</a></li>
+  <li><a href="#">消费维权</a></li>
+ </ul>
+ <!--<div class="btns">
+   <input type="reset" class="btn btn-normal" value="取 消">
+   <button class="btn">提 交</button>
+  </div>-->
+</div>
+
+<!--js--> 
+<script type="text/javascript" src="js/iframeResizer.contentWindow.min.js"></script>
+<script type="text/javascript" src="js/layer.js"></script> 
+<script>
+//Dom option
+$(document).ready(function() {
+	//添加栏目
+	$(".add-item").click(function(e) {
+        layer.open({
+			type: 1,
+			shade: false,
+			title: '请选择添加首页显示栏目',
+			area: '500px',
+			content: $('.choice'),
+			btn: ['确认', '取消'],
+			btnAlign: 'c'
+	   });
+    });
+	$(".choice li").click(function(e) {
+        $(this).toggleClass("on");
+    });  
+});
+</script>
+</body>
+</html>

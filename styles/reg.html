@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>湖北省工商行政管理局_用户中心</title>
+    <link rel="shortcut icon" href="images/ico.png" />
+    <link rel="stylesheet" type="text/css" href="styles/common.css" />
+    <link rel="stylesheet" type="text/css" href="styles/uc.css" />
+    <style type="text/css">
+        .sign {
+	        padding: 80px 0;
+	        background: #b1dffe;  /* fallback for old browsers */
+	        background: -webkit-linear-gradient(left, #f2fcfe, #b1dffe);  /* Chrome 10-25, Safari 5.1-6 */
+	        background: linear-gradient(left, #f2fcfe, #b1dffe); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+        .sign-banner {
+	        width: 720px;
+	        height: 480px;
+	        background: url(images/uc/login_bg.png) center no-repeat;
+	        background-size: 640px auto;
+}
+        .sign-box {
+	        position: relative;
+	        width: 400px;
+	        height: 400px;
+	        padding: 40px;
+	        background-color: #fff;
+	        box-shadow: 0 15px 55px rgba(0,153,255,.2);
+	        border-radius: 5px;
+        }
+        .sign-box h2 {
+            height: 20px;
+            border-bottom: 4px double #ddd;
+            text-align: center;
+            margin: -10px 0 26px;
+        }
+        .sign-box h2 b {
+	        position: relative;
+	        display: inline-block;
+	        padding: 0 35px;
+	        line-height: 40px;
+	        font-size: 20px;
+	        background-color: #fff;
+	        color: #058;
+        }
+        .sign-box h2 b:before, .sign-box h2 b:after {
+        	content: '';
+        	position: absolute;
+        	top: 50%;
+        	left: 0;
+        	width: 8px;
+        	height: 8px;
+        	border: 1px solid #ddd;
+        	margin-top: -3px;
+        	border: 1px solid #ddd;
+        }
+        .sign-box h2 b:after {
+        	left: auto;
+        	right: 0;
+        }
+        .sign-box h3 {
+    	    position: relative;
+	        margin: 0 -40px;
+	        padding: 0 0 20px;
+	        line-height: 20px;
+        }
+        .sign-box h3 b {
+        	display: inline-block;
+        	border-left: 10px solid #f80;
+        	padding-left: 20px;
+        	font-size: 20px;
+        	color: #058;
+        }
+        .signin li {
+        	position: relative;
+        	padding: 15px 0;
+        }
+        .signin li i {
+        	position: relative;
+        	float: left;
+        	display: block;
+        	width: 60px;
+        	height: 60px;
+        	margin-right: -60px;
+        	line-height: 60px;
+        	text-align: center;
+        	font-size: 24px;
+        	color: #ccc;
+        }
+        .signin li label {
+        	display: none;
+        	font: 0/0 lx;
+        	color: transparent;
+        }
+        .signin li .inp {
+        	display: block;
+        	width: 320px;
+        	height: 20px;
+        	border: 1px solid #ddd;
+        	padding: 19px 19px 19px 59px;
+        	font: normal 16px/20px microsoft yahei, simhei;
+        	background-color: #fff;
+        }
+        .signin li input.inp:focus {
+        	outline: none;
+        	border: 1px solid #bde;
+        	box-shadow: 0 0 15px rgba(0,102,255,.15);
+        }
+        .signin .code {
+        	position: absolute;
+        	top: 25px;
+        	right: 0;
+        	display: block;
+        	width: 110px;
+        	height: 40px;
+        	padding: 0 10px;
+        	border-left: 1px solid #ddd;
+        	vertical-align: middle;
+        }
+        .signin .code img {
+        	width: 100%;
+        	height: 100%;
+        }
+        .signin .btn {
+        	width: 100%;
+        	margin: 0;
+        	height: 60px;
+        	line-height: 60px;
+        	font-size: 20px;
+        	background: #1e3c72;
+        	background: -webkit-linear-gradient(to left, #2a5298, #1e3c72);
+        	background: linear-gradient(to left, #2a5298, #1e3c72);
+        	box-shadow: 0 10px 25px rgba(0,85,136,.2);
+        }
+        .signin .btn:hover {
+        	opacity: 1;
+        	box-shadow: 0 5px 15px rgba(0,85,136,.1);
+        }
+        .reg {
+        	position: absolute;
+        	top: 0;
+        	right: 0;
+        	display: block;
+        	width: 80px;
+        	height: 80px;
+        	background: url(images/uc/reg.png) no-repeat;
+        }
+        .steps ul {
+        	width: 600px;
+        	margin: 0 auto;
+        }
+        .steps li {
+        	position: relative;
+        	width: 50%;
+        	padding: 15px 0;
+        	line-height: 30px;
+        	text-align: center;
+        }
+        .steps li i {
+        	display: block;
+        	width: 50px;
+        	height: 50px;
+        	margin: 0 auto;
+        	line-height: 50px;
+        	font-weight: bold;
+        	font-size: 24px;
+        	font-style: normal;
+        	background-color: #d9d9d9;
+        	color: #797979;
+        	border-radius: 100px;
+        }
+        .steps li.current i {
+        	background-color: #1b80d2;
+        	color: #fff;
+        }
+        .steps li.completed i {
+        	font: 0/0 lx;
+        	background: #36d2a5 url(images/uc/done.png) center no-repeat;
+        	color: #fff;
+        }
+        .steps li + li:before {
+        	content: '';
+        	position: absolute;
+        	top: 38px;
+        	left: -70px;
+        	width: 140px;
+        	height: 4px;
+        	background-color: #eee;
+        }
+        .signup {
+        	width: 800px;
+        	height: auto;
+        	margin: 0 auto;
+        }
+        .signup li label {
+        	margin-left: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="header">
+            <div class="w1200">
+                <h1>
+                    <a href="login.html">
+                        <b class="nt">湖北省工商行政管理局</b>
+                        <strong>用户认证子系统</strong>
+                    </a>
+                </h1>
+            </div>
+        </div>
+        <div class="content sign">
+            <div class="w1200 clearfix">
+                <div class="sign-box signup">
+                    <h2><b>新用户注册</b></h2>
+                    <div class="steps">
+                        <ul class="h">
+                            <li class="current"><i>1</i><span>验证手机号</span></li>
+                            <li><i>2</i><span>注册成功</span></li>
+                        </ul>
+                    </div>
+                    <div class="jr-forms">
+                        <div class="note">
+                            <p class="tc">请正确的输入信息</p>
+                        </div>
+                        <ul>
+                            <li>
+                                <label>手机号</label>
+                                <input type="text" class="inp" id="inp1" placeholder="请输入手机号码">
+                            </li>
+                            
+                            <li>
+                                <label>验证码</label>
+                                <input type="text" class="inp" id="inp2" placeholder="请输入验证码">
+                                <img id="IMG" src="/HTEIP-page/security/captcha.htm" title="点击刷新"
+                                     onclick="reImg()" alt="验证码" style="height: 30px;">
+                            </li>
+                            <li>
+                                <label>手机验证码</label>
+                                <input type="text" class="inp" id="inp3" placeholder="请输入手机验证码">
+                                <a href="javascript:;" class="btn btn-small btn-normal" id="getcode">获取验证码</a>
+                            </li>
+                            <li>
+                                <label>密码</label>
+                                <input type="password" class="inp" id="inp4" placeholder="密码长度为6至11位">
+                            </li>
+                            <li>
+                                <label>确认密码</label>
+                                <input type="password" class="inp" id="inp5" placeholder="请再一次输入密码">
+                            </li>
+                        </ul>
+                        <div class="btns">
+                        <input type="reset" class="btn btn-normal reset">
+                        <button class="btn" id="btn">下一步</button>
+                    </div>
+                    </div>
+                    <div class="jr-forms hide">
+                        <div class="note">
+                            <p class="tc" id="tc">成功的提示信息。</p>
+                        </div>
+                        <div class="btns">
+                            <button class="btn" id="btner">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="copyright w1200">
+                <p>地址：湖北省武汉市武昌区东湖路145号&emsp;&emsp;邮编：430077</p>
+                <p>版权所有：湖北省工商行政管理局&emsp;&emsp;鄂ICP备05016233号&emsp;&emsp;技术支持：武汉佳软</p>
+                <p>建议您使用IE9+、webkit内核、极速模式浏览器，分辨率1280*800及以上浏览本网站。</p>
+                <div class="extra">
+                    <div id="_ideConac"><img src="images/red.png" alt=""></div>
+                    <div id="_span_jiucuo"><img src="images/jiucuo.png" alt=""></div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+<!--js-->
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="js/iframeResizer.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+        	var result;
+            $('#inp1').focus();
+
+            //验证手机号码是否存在函数
+            var  existence;
+            function exist(){
+                var $phoneNum = $('#inp1').val();
+                $.ajax({
+                    type:"POST",
+                    url:'/HTEIP-page/security/validatePhoneUsed.htm?phoneNumber='+$phoneNum,
+                    cache:false,
+                    async:false,
+                    success:function(res){
+                        if(res.code != "200"){
+                            existence = false;
+                            $(".note .tc").text(res.msg);
+                        }
+                    },
+                    error:function(err){
+                        console.log(err.code);
+                    }
+                })
+                return existence;
+            }
+            //验证手机号码是否存在
+            $('#inp1').blur(function(){
+                exist();
+            });
+
+            // *------------------------- 发送短信验证码 -------------------------*
+            // 发送短信验证码标识
+            var do_sendCodeTimer = true;
+            // 默认倒计时时长
+            var time = 60;
+            //点击 获取手机验证码 按钮
+            $("#getcode").click(function(){
+                if(exist() == false){
+                    $(".note .tc").text("手机号码不正确！");
+                    return;
+                }else{
+                    if(do_sendCodeTimer) {
+                        // 如果手机验证码验证通过
+                        if(getCode()=="200"){
+                            // 开始执行 倒计时
+                            if(do_sendCodeTimer){
+                                // 将标志设置为 false，这样防止频繁触发计时器
+                                do_sendCodeTimer = false;
+                                // 将发送短信验证码按钮设置为 disable
+
+                                var t = setInterval(function  () {
+                                    time--;
+                                    // 倒计时结束
+                                    if (time == 0) {
+                                        console.log("倒计时结束");
+                                        clearInterval(t);
+                                        $("#getcode").text("获取验证码");
+                                        do_sendCodeTimer = true;
+                                    }else{
+                                        $("#getcode").text("重新发送"+"("+time+")s");
+                                    }
+                                },1000)
+
+                            }
+                        }
+                    }
+
+
+                }
+
+            });
+
+            //点击注册--------------------------------------------------------------------------
+            $("#btn").click(function() {
+                var $phoneNum = $('#inp1').val();
+                var $code = $('#inp2').val();
+                var $message = $('#inp3').val();
+                var $pwd = $('#inp4').val();
+                var $repwd = $('#inp5').val();
+                var pattern = /^1[345789]\d{9}$/;
+                if(!$phoneNum){
+                    $(".note .tc").text('手机号码不能为空！');
+                    return;
+                }else if(!pattern.test($phoneNum) || $phoneNum.length != 11){
+                    $(".note .tc").text('手机号码不合法！');
+                    return;
+                }else if(exist() == false){
+                    $(".note .tc").text('手机号码不正确！');
+                    return;
+                }else if(!$code){
+                    $(".note .tc").text('请填写验证码！');
+                    return;
+                }else if(!$message ){
+                    $(".note .tc").text('手机验证码不能为空！');
+                    return;
+                }else if(!$pwd){
+                    $(".note .tc").text('密码不能为空！');
+                    return;
+                }else if($pwd.length<6 || $pwd.length>11){
+                    $(".note .tc").text('密码长度为6位至11位！');
+                    return;
+                }else if(!$repwd){
+                    $(".note .tc").text('请再一次输入密码！');
+                    return;
+                }else if($pwd != $repwd){
+                    $(".note .tc").text('两次密码必须填写一致！');
+                    return;
+                }else{
+                    $(".note .tc").text('信息正确！');
+                }
+                $.ajax({
+                    type:"GET",
+                    url:'/HTEIP-page/security/doRegister.htm',
+                    data:{
+                        phoneNumber:$phoneNum,
+                        password:$pwd,
+                        phoneCode:$message
+                    },
+                    cache:false,
+                    dataType:"json",
+                    contentType: 'application/json;charset=utf-8',
+                    success:function(res){
+                        console.log(res.code == '200');
+                        if(res.code == '200'){
+                            $('.steps li:eq(0)').removeClass().addClass('completed').next().addClass('current');
+                            $("#btn").parents(".jr-forms").hide().next().show();
+                            var time = 5;
+                            $(".note #tc").text(res.msg+time+"s之后跳转至登录页面...");
+                            var t = setInterval(function(){
+                                console.log(123)
+                                time--;
+                                $(".note #tc").text(res.msg+time+"s之后跳转至登录页面...");
+                                if(time == 0){
+                                    clearInterval(t);
+                                    $(".note #tc").text(res.msg+time+"s之后跳转至登录页面...");
+
+                                    window.location.href = '/HTEIP-page/oauth/login.html';
+                                }
+                            },1000);
+                            $("#btner").click(function(){
+                                window.location.href = '/HTEIP-page/oauth/login.html';
+                            })
+                        }else{
+                            $(".note .tc").text(res.msg);
+                        }
+                    },
+                    error:function(err){
+                        console.log(err.msg);
+                    }
+
+                });
+            });
+
+
+            //点击重置按钮------------------------------------------------------------------------
+            $(".reset").click(function(){
+                $('#inp1').val('');
+                $('#inp2').val('');
+                $('#inp3').val('');
+                $('#inp4').val('');
+                $('#inp5').val('');
+                $(".note .tc").text('请正确输入信息！');
+                $('#inp1').focus();
+                reImg();
+            })
+            //获取验证码------------------------------------------------------------------------
+            var result;
+            function getCode() {
+                var $phoneNum = $('#inp1').val();
+                var $code = $('#inp2').val();
+                if(!$phoneNum || !$code ){
+                    $(".note .tc").text('手机号码和验证码不能为空！');
+                    return;
+                }else if(!pattern.test($phoneNum) || $phoneNum.length != 11){
+                    $(".note .tc").text('请输入有效的手机号码！');
+                    return;
+                }else if(!$code){
+                    $(".note .tc").text('请输入图形验证码！');
+                    return;
+                };
+
+                $.ajax({
+                    type:"POST",
+                    url:'/HTEIP-page/security/sendMsgCode.htm',
+                    data:{
+                        phoneNumber:$phoneNum,
+                        captchaCode:$code
+                    },
+                    dataType:"json",
+                    async:false,
+                    success:function(res){
+                        console.log(res)
+                        if(res.code == '200'){
+                            result = res.code;
+                            $(".note .tc").text(res.msg);
+                        }else{
+                            $(".note .tc").text(res.msg);
+                            reImg();
+                        }
+
+                    },
+                    error:function(err){
+                        $(".note .tc").text(res.msg);
+                        reImg();
+                    }
+                });
+                return result;
+            }
+        
+        });
+        //验证码切换刷新
+        function reImg(){
+            $("#IMG").attr("src","/HTEIP-page/security/captcha.htm?r=" + Math.random());
+        }
+
+      
+    </script>
+</body>
+</html>

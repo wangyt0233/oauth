@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>武汉佳软统一身份认证_用户中心</title>
+<link rel="shortcut icon" href="images/ico.png" />
+<link rel="stylesheet" type="text/css" href="styles/common.css" />
+<link rel="stylesheet" type="text/css"
+	href="plug-in/layui/css/layui.css" media="all" />
+<link rel="stylesheet" type="text/css" href="styles/uc.css" />
+<link
+	href="https://cdn.bootcss.com/pixeden-stroke-7-icon/1.2.3/dist/pe-icon-7-stroke.min.css"
+	rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="styles/accredit.css" />
+
+
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="plug-in/layui/layui.js"></script>
+<script>
+function getQueryString(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	var r = window.location.search.substr(1).match(reg);
+	if(r != null) {
+		return decodeURI(r[2]);
+	} else {
+		return null;
+	}
+}
+</script>
+</head>
+
+<body>
+
+	<!--添加应用-->
+	<div class="jr-forms hide">
+		<ul>
+			<li><label for="">姓名</label> <input type="text" class="inp" ></li>
+			<li><label for="">密码</label> <input type="password" class="inp"></li>
+			<li><label for="">验证码</label> <input type="text" class="inp"></li>
+		</ul>
+		<div class="btns">
+			<a href="apps_add.html" class="btn" id="authLogin">授权登陆</a> 
+		</div>
+	</div>
+	<script>
+//Dom option
+$(document).ready(function() {
+	
+	layer.open({
+		type: 1,
+		shade: false,
+		title: '返回用户信息选择',
+		area: '400px',
+		content: $('.jr-forms')
+   });
+	
+	$.ajax({
+		url:"/HTEIP-page/OauthJrService/returnOpenidList.htm",
+		type:"post",
+		data:{"clientId":getQueryString("client_id")},
+		dataType:"json",
+		success:function(datas){
+			if(datas.code == 204 ){
+				layer.msg('无数据');
+			}else if(datas.code == 200 ){
+				layer.msg('您好，您未登录统一身份认证系统，请登录后发起请请求。');
+			}else if(datas.code == 500 ){
+				layer.msg('系统异常');
+			}
+		},
+	});
+	
+});
+
+</script>
+</body>
+</html>

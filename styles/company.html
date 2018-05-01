@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>湖北省工商行政管理局_首页</title>
+    <link rel="shortcut icon" href="images/ico.png" />
+    <link rel="stylesheet" type="text/css" href="styles/common.css" />
+    <link rel="stylesheet" type="text/css" href="styles/uc.css" />
+    <link rel="stylesheet" type="text/css" href="styles/layer.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/simple-line-icons/2.4.1/css/simple-line-icons.css">
+    <style type="text/css">
+        table.data th,
+        table.data td {
+            padding: 10px;
+        }
+        
+        .data td a {
+            margin: 0 5px;
+        }
+        
+        .data td a i {
+            display: inline-block;
+            width: 20px;
+            line-height: 20px;
+            font-size: 16px;
+            color: #aaa;
+        }
+        
+       
+    </style>
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    
+    
+</head>
+
+<body>
+<div class="where">
+    <h2 class="t1"><b>我的企业</b></h2>
+    <div class="crumbs"><a href="#" class="home">用户中心</a>/<span class="current">我的企业</span></div>
+</div>
+<div class="grid">
+    <div class="col">
+        <div class="pane pane-bd">
+            <ul class="jr-tab2">
+                <li class="current"><a href="javascript:">企业信息</a></li>
+            </ul>
+            <div class="item-info">
+                <div class="note mb10">
+                    <p>"您还没有实名认证，只有实名认证后的企业才会在这里显示"<a href="javascript:" class="btn btn-small fr" id="btn">实名认证</a></p>
+                </div>
+                <table class="data">
+                    <thead>
+                    <tr>
+                        <th>企业名称</th>
+                        <th>统一社会信用代码</th>
+                        <th>法人名称</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    
+                    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--js-->
+<script type="text/javascript" src="js/iframeResizer.contentWindow.min.js"></script>
+<script type="text/javascript" src="js/layer.js"></script>
+<script>
+    //Dom option
+    $(document).ready(function() {
+        $.ajax({
+            type: "GET",
+            url: '/HTEIP-page/oauthDetail/getLegalDetailByUser.htm',
+            dataType: "json",
+            success: function (res) {
+                console.log(res);
+                for (var i = 0; i < res.data.length; i++) {
+                    sessionStorage.setItem("id", res.data[i].id);
+                    var tr = "<tr '>\n" +
+                        "<td >\n" +
+                        "<p style='text-align: center'>" + res.data[i].legelEnterName + "</p>\n" +
+                        "</td>\n" +
+                        "<td>" + res.data[i].unitCode + "</td>\n" +
+                        "<td>" + res.data[i].legalPersonName + "</td>\n" +
+                        "<td><a href=\"detail.html\" title=\"详情\"><i class=\"icon-magnifier-add\"></i></a><a href=\"javascript:\" title=\"删除\" class=\"remove\"><i class=\"icon-trash\"></i></a></td>\n" +
+                        "</tr>";
+                    $(".data tbody").append(tr);
+                    var id = sessionStorage.getItem("id");
+                    $('.remove').click(function () {
+                        top.layer.confirm('确定要删除？',function(index){
+                            cut(id, this);
+                            top.layer.close(index);
+                        });
+                        
+                    })
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+
+        });
+        $("#btn").click(function(){
+            window.location.href = "/HTEIP-page/oauth/cc_legal.html";
+        });
+        //删除函数
+        function cut(id, obj){
+            $.ajax({
+                type: "GET",
+                data:{
+                    legalId:id,
+                },
+                url: '/HTEIP-page/oauthDetail/delLegalDetailById.htm.htm',
+                dataType: "json",
+                success: function (res) {
+                    $(obj).parent("td").parent("tr").css("display","none");
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        
+        //tab
+        $(".jr-tab2 li").click(function() {
+            $(this).addClass("current").siblings().removeClass("current");
+            $(".item-info").hide().eq($(".jr-tab2 li").index(this)).show();
+        });
+
+        //del
+        $('.del').click(function() {
+            layer.alert('确定要删除？', {shade: false});
+        });
+    });
+</script>
+</body>
+
+</html>

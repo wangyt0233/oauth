@@ -1,0 +1,193 @@
+@charset "utf-8";
+
+/* 框架 */
+
+.mini-side {
+    border-left: 1px #ddd solid;
+    background-color: #fff;
+}
+
+.mini-main {
+    padding: 10px;
+    background-color: #fff;
+}
+
+.mini-mask-loading {
+    border-width: 1px;
+    border-color: #ddd;
+}
+
+.mini-layout,
+.mini-grid-cell-inner,
+.mini-grid-headerCell-inner,
+.mini-panel,
+.mini-pager,
+.mini-button,
+.mini-textbox-input,
+.mini-buttonedit-input,
+.mini-checkboxlist,
+.mini-radiobuttonlist table label,
+.mini-listbox td {
+    font-family: microsoft yahei, STXihei, STHeiti, simhei;
+}
+
+.mini-panel-header-inner {
+    font-size: 15px;
+}
+
+.mini-layout-region-header {
+    padding-left: 10px;
+}
+
+
+/* 树优化 */
+
+.mini-tree {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    overflow: auto;
+}
+
+.mini-tree-treeLine .mini-tree-expand .mini-tree-node-ecicon,
+.mini-tree-treeLine .mini-tree-expand .mini-tree-node-ecicon-first {
+    background-position: 2px 2px;
+}
+
+.mini-tree-treeLine .mini-tree-collapse .mini-tree-node-ecicon {
+    background-position: 1px 2px;
+}
+
+/*.mini-tree-nodes-td .mini-tree-nodes {
+    margin-left: 1px;
+}*/
+
+
+/* 按钮优化 */
+
+.mini-button {
+    background-image: linear-gradient( to bottom, #fff 50%, #e9e9e9 100%);
+}
+
+.mini-button-text {
+    height: 18px;
+    padding: 5px 12px;
+    line-height: 18px;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.mini-button i {
+    font-size: 18px;
+    vertical-align: -2px;
+}
+
+
+/* 表格列表优化 */
+
+.mini-panel-viewport.mini-grid-viewport .mini-grid-pager {
+    margin-top: -1px;
+}
+
+.mini-panel .mini-panel-viewport {
+     margin-right: -1px;
+}
+
+.mini-datagrid .mini-grid-table {
+     margin-left: -1px;
+}
+
+/* 下拉弹框优化 */
+
+.mini-popup,
+.mini-window,
+.mini-menu-open,
+.mini-shadow {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .05);
+}
+
+
+/* 表单优化 */
+
+.mini-forms>ul {
+    padding: 10px;
+}
+
+.mini-forms>ul>li {
+    padding: 5px;
+    line-height: 28px;
+    font-size: 0;
+    *zoom: 1;
+}
+
+.mini-forms>ul>li:after {
+    content: '\20';
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+.mini-forms span,
+.mini-forms input {
+    vertical-align: middle;
+}
+
+.mini-forms>ul>li>label {
+    float: left;
+    display: block;
+    width: 150px;
+    margin-right: 10px;
+    text-align: right;
+    font-size: 14px;
+    white-space: nowrap;
+    word-break: keep-all;
+}
+
+.mini-forms>ul>li>span+span {
+    margin-left: 10px;
+}
+
+.mini-forms .mini-textbox-border {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.mini-radiobuttonlist-item,
+.mini-checkboxlist-item {
+    margin-right: 20px;
+}
+
+.mini-checkboxlist,
+.mini-radiobuttonlist {
+    padding: 3px 0;
+}
+
+.mini-forms>table {
+    width: 100%;
+}
+
+.mini-forms>table>tbody>tr>th,
+.mini-forms>table>tbody>tr>td {
+    border-bottom: 1px solid #e9e9e9;
+    padding: 5px;
+}
+
+.mini-forms>table>tbody>tr>th {
+    white-space: nowrap;
+    word-break: keep-all;
+    text-align: right;
+}
+
+.mini-forms td .mini-textbox-border,
+.mini-forms td .mini-textbox {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.mini-forms td th,
+.mini-forms td td,
+.mini-forms li th,
+.mini-forms li td {
+    border: none;
+}

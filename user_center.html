@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>湖北省工商行政管理局_用户中心</title>
+    <link rel="shortcut icon" href="images/ico.png" />
+    <link rel="stylesheet" type="text/css" href="styles/common.css" />
+    <link rel="stylesheet" type="text/css" href="styles/uc.css" />
+    <link rel="stylesheet" type="text/css" href="styles/layer.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/simple-line-icons/2.4.1/css/simple-line-icons.css">
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+</head>
+
+<body>
+<div class="wrap">
+    <div class="header">
+        <div class="w1200">
+            <h1><a href="javascript:;"><b class="nt">湖北省工商行政管理局</b><strong>认证平台</strong></a></h1>
+            <div class="user-nav">
+                <ul>
+                    <li class="current"><a href="#">首 页</a></li>
+                    <li><a href="#">账户设置</a></li>
+                    <li><a href="msg.html" target="mainFrame">消息中心<em>19</em></a></li>
+                    <li id="open"><a href="javascript:" target="_blank" class="extra"><i class="icon-book-open"></i>&ensp;开放平台</a></li>
+                    <li class="line"><span></span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="w1200">
+            <div class="user-side">
+                <div class="user-info">
+                    <h2><i><img src="images/uc/user.png" alt=""></i><b></b></h2>
+                    <p class="tc"><a href="javascript:"><i class="icon-logout vm"></i>&ensp;安全退出</a></p>
+                </div>
+                <dl class="my-menu">
+                    <dt><i class="icon-list"></i>&ensp;我的空间</dt>
+                    <dd>
+                        <ul>
+                            <li><a href="rss.html" target="mainFrame">我的订阅</a></li>
+                            <li><a href="company.html" target="mainFrame">我的企业</a></li>
+                            <li><a href="faq.html" target="mainFrame">我的咨询</a></li>
+                            <li><a href="complain.html" target="mainFrame">我的投诉</a></li>
+                            <li><a href="apps.html" target="mainFrame">我的应用</a></li>
+                        </ul>
+                    </dd>
+                    <dt><i class="icon-notebook"></i>&ensp;我的资料</dt>
+                    <dd>
+                        <ul>
+                            <li><a href="main_default.html" target="mainFrame">基本信息</a></li>
+                            <li><a href="resetPhoneNum.html" target="mainFrame">更改手机号</a></li>
+                            <li><a href="resetpwd.html" target="mainFrame">更改密码</a></li>
+                            <li><a href="company.html" target="mainFrame">法人信息</a></li>
+                        </ul>
+                    </dd>
+                    <dt><i class="icon-user-following"></i>&ensp;实名认证</dt>
+                    <dd>
+                        <ul>
+                            <li><a href="cc_natural.html" target="mainFrame" id="person">自然人认证</a></li>
+                            <li><a href="cc_legal.html" target="mainFrame" id="cor">法人认证</a></li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+            <div class="user-main">
+                <iframe src="main_default.html" frameborder="0" scrolling="no" name="mainFrame" id="mainFrame" ></iframe>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="backtop"></div>
+        <div class="copyright w1200">
+            <p>地址：湖北省武汉市武昌区东湖路145号&emsp;&emsp;邮编：430077</p>
+            <p>版权所有：湖北省工商行政管理局&emsp;&emsp;鄂ICP备05016233号&emsp;&emsp;技术支持：武汉佳软</p>
+            <p>建议您使用IE9+、webkit内核、极速模式浏览器，分辨率1280*800及以上浏览本网站。</p>
+            <div class="extra">
+                <div id="_ideConac"><img src="images/red.png" alt=""></div>
+                <div id="_span_jiucuo"><img src="images/jiucuo.png" alt=""></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="tip1" class="hide">
+    <div class="note" style="margin: 10px">
+        <p>
+            <i class="pe-7s-info vm" style="font-size: 24px"></i>&emsp;<span>您好，您的帐号还不具有开发者权限。</span>
+            <a href="#" style="text-decoration: underline;">开发者平台</a>
+
+        </p>
+    </div>
+</div>
+<!--js-->
+<script type="text/javascript" src="js/iframeResizer.min.js"></script>
+<script type="text/javascript" src="js/layer.js"></script>
+<script>
+    //Dom option
+    $(document).ready(function() {
+        $.ajax({
+            async: false,
+            type:"GET",
+            url:"/HTEIP-page/oauthDetail/getHumanDetail.htm",
+            dataType:"json",
+            success:function(res){
+                console.log(res.data);
+                if(res.code == "200"){
+                    $(".user-info b").text(res.data.phoneNumber);
+                }
+
+            }
+
+        })
+
+        //安全退出
+        $(".tc").click(function(){
+            $.ajax({
+                type:"GET",
+                url:'/HTEIP-page/security/doLogout.htm',
+                cache:false,
+                dataType:"json",
+                contentType:"application/json;charset=utf-8",
+                success:function(res){
+                    console.log(res);
+                    if(res.code == '200'){
+                        window.location.href = '/HTEIP-page/oauth/login.html';
+                    }
+                },
+                error:function(err){
+                    console.log(err.code);
+                }
+
+            });
+        })
+        
+        
+        //1.认证成功后跳转到当前页，获取连接中的参数、判断
+        //2.$("#mainFrame").attr('src','cc_natural.html');
+        //3.reload这个iframe
+        
+        
+        //菜单和框架
+        var t = $(".user-nav li, .my-menu li");
+        t.click(function() {
+                t.removeClass("current");
+                $(this).addClass("current");
+        });
+            $('#mainFrame').iFrameResize();
+    
+        //折叠菜单
+        $(".my-menu dt:first").addClass('open').next("dd").show().siblings('dd').hide();
+        $(".my-menu dt").click(function() {
+            $(this).toggleClass('open').next("dd").toggle();
+        });
+
+        //返回顶部
+        $(".backtop").click(function() { $("html, body").animate({ scrollTop: 0 }, 500) });
+
+        function backTop() {
+            var st = $(document).scrollTop(),
+                gt = $(".content").offset().top;
+            st > gt ? $(".backtop").fadeIn(300) : $(".backtop").fadeOut(300);
+        }
+        $(window).bind("load scroll resize", backTop);
+
+        var authen;
+        //开发平台提示
+        $('.user-nav .extra').click(function(event) {
+            if(iden() == "未认证"){
+                $("#tip1 span").text("您好，您的账号还没有实名认证，");
+                $("#tip1 a").text("去实名认证");
+                $("#tip1 a").click(function () {
+                    $("#tip1 a").attr({"href":"/HTEIP-page/oauth/cc_personal.html","target":"mainFrame"});
+                    layer.closeAll()
+                });
+                layer.open({
+                    type: 1,
+                    area: '500px',
+                    title: '提示',
+                    shadeClose: true,
+                    content: $('#tip1'),
+
+                });
+            }else{
+                $("#tip1 span").text("您好，您的帐号还不具有开发者权限，");
+                $("#tip1 p a").text("去开发者平台");
+                $("#tip1 a").click(function () {
+                    $("#tip1 a").attr({"href":"/HTEIP-page/oauth/developer.html"});
+                    layer.closeAll()
+                });
+                layer.open({
+                    type: 1,
+                    area: '500px',
+                    title: '提示',
+                    shadeClose: true,
+                    content: $('#tip1')
+                });
+            }
+
+        });
+
+        //判断是否实名认证
+        function  iden(){
+            $.ajax({
+                type:"POST",
+                async : false,
+                url:'/HTEIP-page/oauthDetail/getHumanAuthStatus.htm',
+                cache:false,
+                dataType:"json",
+                contentType:"application/json;charset=utf-8",
+                success:function(res){
+                    authen = res.msg;
+                },
+                error:function(err){
+                    console.log(err.msg);
+                }
+
+            });
+            return authen;
+        }
+    });
+</script>
+</body>
+
+</html>

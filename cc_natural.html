@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<head>
+     <meta charset="utf-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+     <title>湖北省工商行政管理局_首页</title>
+     <link rel="shortcut icon" href="images/ico.png" />
+     <link rel="stylesheet" type="text/css" href="styles/common.css" />
+     <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/simple-line-icons/2.4.1/css/simple-line-icons.css">
+     <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+</head>
+
+<body>
+     <div class="where">
+         <h2 class="t1"><b>自然人认证</b></h2>
+         <div class="crumbs"><a href="#" class="home">用户中心</a>/<span class="current">自然人认证</span></div>
+     </div>
+     <div class="pane">
+         <div class="note mb10">
+             <p>认证级别： <strong>初级</strong>&emsp;&emsp;建议您启动全部认证设置，以保障账户安全。</p>
+         </div>
+         <table class="grade">
+               <col style="width: 10%">
+               <col style="width: 80%">
+               <col style="width: 10%">
+               <thead>
+                    <tr>
+                         <th>认证等级</th>
+                         <th>认证项目</th>
+                         <th>操作</th>
+                    </tr>
+               </thead>
+               <tbody id="pra">
+                    <!--<tr class="bg" >-->
+                         <!--<td>初级</td>-->
+                         <!--<td>-->
+                             <!--<p><i class="icon-check green"></i><span class="cc-name">身份证实名认证</span><span class="cc-info">您认证的实名信息： *烜 4201**************</span></p>-->
+                         <!--</td>-->
+                         <!--<td><a href="javascript:" class="btn btn-small btn-normal">认证修改</a></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td rowspan="3">中级</td>-->
+                        <!--<td>-->
+                            <!--<p><i class="icon-shield orange"></i><span class="cc-name">支付宝实名认证</span><span class="cc-info gray">未认证</span></p>-->
+                        <!--</td>-->
+                        <!--<td><a href="javascript:" class="btn btn-small btn-orange">立即认证</a></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                         <!--<td>-->
+                             <!--<p><i class="icon-shield orange"></i><span class="cc-name">银行卡实名认证</span><span class="cc-info gray">未认证</span></p>-->
+                         <!--</td>-->
+                         <!--<td><a href="javascript:" class="btn btn-small btn-orange">立即认证</a></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                         <!--<td>-->
+                            <!--<p><i class="icon-shield orange"></i><span class="cc-name">XXX实名认证</span><span class="cc-info gray">未认证</span></p>-->
+                         <!--</td>-->
+                         <!--<td><a href="javascript:" class="btn btn-small btn-orange">立即认证</a></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                     <!--<td>高级</td>-->
+                     <!--<td>-->
+                          <!--<p><i class="icon-shield orange"></i><span class="cc-name">字段字段实名认证</span><span class="cc-info gray">未认证</span></p>-->
+                     <!--</td>-->
+                     <!--<td><a href="javascript:" class="btn btn-small btn-orange">立即认证</a></td>-->
+                    <!--</tr>-->
+               </tbody>
+          </table>
+         <!--<div class="jr-forms">-->
+               <!--<h3 class="t3"><b>实名认证信息</b></h3>-->
+               <!--<ul>-->
+                    <!--<li style="padding-left: 320px">-->
+                         <!--<label for="">姓名</label>-->
+                         <!--<input type="text" class="inp">-->
+                    <!--</li>-->
+                    <!--<li style="padding-left: 320px">-->
+                         <!--<label for="">身份证号</label>-->
+                         <!--<input type="text" class="inp">-->
+                    <!--</li>-->
+                    <!--<li style="padding-left: 320px">-->
+                         <!--<label for="">性别</label>-->
+                         <!--<input type="radio" name="sex" class="set" id="a1">-->
+                         <!--<label for="a1">男</label>-->
+                         <!--<input type="radio" name="sex" class="set" id="a2">-->
+                         <!--<label for="a2">女</label>-->
+                    <!--</li>-->
+            <!--&lt;!&ndash; <li style="padding-left: 320px">-->
+             <!--<label for="">验证码</label>-->
+             <!--<input type="text" class="inp">-->
+             <!--<img src="images/code.png" alt="" class="mr10"><a href="javascript:">看不清换一张</a>-->
+            <!--</li> &ndash;&gt;-->
+                <!--</ul>-->
+                <!--<div class="btns">-->
+                <!--<button class="btn">确认</button>-->
+                <!--<input type="reset" class="btn btn-normal">-->
+           <!--</div>-->
+         <!--</div>-->
+     </div>
+ <!--js-->
+ <script type="text/javascript" src="js/iframeResizer.contentWindow.min.js"></script>
+ <script>
+ //Dom option
+ $(document).ready(function() {
+     //认证状态
+     $.ajax({
+         type:"POST",
+         url:'/HTEIP-page/oauthDetail/getHumanAuthStatus.htm',
+         cache:false,
+         dataType:"json",
+         contentType:"application/json;charset=utf-8",
+         success:function(res){
+             if(res.code == '200'){
+                 console.log(res);
+                 $(".note strong").text(res.msg);
+             }
+         },
+         error:function(err){
+             console.log(err.msg);
+         }
+
+     });
+     //认证列表
+     $.ajax({
+         async : false,
+         type:"GET",
+         url:'/HTEIP-page/oauthDetail/getAuthMethodList.htm',
+         cache:false,
+         data:{
+             authType:1
+         },
+         dataType:"json",
+         contentType:"application/json;charset=utf-8",
+         success:function(res) {
+             console.log(res);
+             var $lengthArrLow = res.data[0].low;
+             var $lengthArrMid = res.data[0].mid;
+             var $lengthArrHigh = res.data[0].high;
+             var lengthLow = $lengthArrLow.length;
+             var lengthMid = $lengthArrLow.mid;
+             var lengthHigh = $lengthArrLow.high;
+             //循坏输出初级
+             if($lengthArrLow.length > 0){
+                 for(var i = 0;i< res.data[0].low.length; i++){
+                     console.log(sessionStorage.setItem("id",res.data[0].low[i].id));
+                     var tr = '<tr >';
+                     
+                     if(i == 0) {
+                         tr += '<td rowspan='+lengthLow+'>初级</td>';
+                     }
+                     
+                     // 1. ajax
+                     // 2. 方式ID、类型。
+                     // 3. 根据返回json，判断该方式是否验证过
+                     var authMethodId = res.data[0].low[i].id;
+                     console.log(authMethodId)
+                     $.ajax({
+                         async : false,
+                         type:"GET",
+                         data:{
+                             authMethodId:authMethodId,
+                             authType:1
+                         },
+                         url:'/HTEIP-page/oauthDetail/getAuthStatus.htm',
+                         cache:false,
+                         dataType:"json",
+                         contentType:"application/json;charset=utf-8",
+                         success:function(response){
+                             console.log(response);
+                            if(response.code == '-1'){
+                                tr += '<td>' +
+                                    '<p><i class="icon-shield orange"></i><span class="cc-name">'+res.data[0].low[i].authName+'</span><span class="cc-info gray">未认证</span></p>' +
+                                    '</td>' +
+                                    '<td><a href="javascript:" class="btn btn-small btn-orange">立即认证</a></td>';
+
+                                tr += '</tr>';
+
+                                $("#pra").append(tr);
+                                //给立即认证按钮点击事件跳转到认证页面
+                                $('.btn-orange').click(function () {
+                                    window.location.href = '/HTEIP-page/oauth/cc_personal.html';
+
+                                })
+                            }else{
+                                tr += '<td class="backgroundColor">' +
+                                    '<p><i class="icon-check green"></i><span class="cc-name">'+res.data[0].low[i].authName+'</span><span class="cc-info gray"></span></p>' +
+                                    '</td>' +
+                                    '<td class="backgroundColor"><a href="javascript:" class="btn btn-small btn-normal">已认证</a></td>';
+
+                                tr += '</tr>';
+
+                                $("#pra").append(tr);
+                            }
+                         },
+                         error:function(err){
+                             console.log(err.msg);
+                         }
+
+                     });
+                     
+                     
+                     
+                     
+                     
+                 }
+             };
+             //循坏输出中级
+             // if($lengthArrHigh.length > 0){
+             //     for(var i = 0;i< res.data[0].mid.length; i++){
+             //         var tr = '<tr >';
+             //
+             //         if(i == 0) {
+             //             tr += '<td rowspan='+lengthMid+'>中级</td>';
+             //         }
+             //
+             //         // 1. ajax
+             //         // 2. 方式ID、类型。
+             //         // 3. 根据返回json，判断该方式是否验证过
+             //         var authMethodId = res.data[0].low[i].id;
+             //         $.ajax({
+             //             async : false,
+             //             type:"GET",
+             //             data:{
+             //                 authMethodId:authMethodId,
+             //                 authType:1
+             //             },
+             //             url:'/HTEIP-page/oauthDetail/getAuthStatus.htm',
+             //             cache:false,
+             //             dataType:"json",
+             //             contentType:"application/json;charset=utf-8",
+             //             success:function(response){
+             //                 if(response.code == '-1'){
+             //                     tr += '<td>' +
+             //                         '<p><i class="icon-shield orange"></i><span class="cc-name">'+res.data[0].mid[i].authName+'</span><span class="cc-info gray">未认证</span></p>' +
+             //                         '</td>' +
+             //                         '<td><a href="javascript:" class="btn btn-small btn-orange">立即认证</a></td>';
+             //
+             //                     tr += '</tr>';
+             //
+             //                     $("#pra").append(tr);
+             //                     //给立即认证按钮点击事件跳转到认证页面
+             //                     $('.btn-orange').click(function () {
+             //                         //window.location.href = '/HTEIP-page/oauth/cc_personal.html';
+             //
+             //                     })
+             //                 }else{
+             //                     tr += '<td class="backgroundColor">' +
+             //                         '<p><i class="icon-check green"></i><span class="cc-name">'+res.data[0].mid[i].authName+'</span><span class="cc-info gray"></span></p>' +
+             //                         '</td>' +
+             //                         '<td class="backgroundColor"><a href="javascript:" class="btn btn-small btn-normal">已认证</a></td>';
+             //
+             //                     tr += '</tr>';
+             //
+             //                     $("#pra").append(tr);
+             //                 }
+             //             },
+             //             error:function(err){
+             //                 console.log(err.msg);
+             //             }
+             //
+             //         });
+             //     }
+             // };
+             //循坏输出高级
+             // if($lengthArrMid.length > 0){
+             //     for(var i = 0;i< res.data[0].high.length; i++){
+             //         var tr = '<tr >';
+             //
+             //         if(i == 0) {
+             //             tr += '<td rowspan='+lengthHigh+'>高级</td>';
+             //         }
+             //
+             //         // 1. ajax
+             //         // 2. 方式ID、类型。
+             //         // 3. 根据返回json，判断该方式是否验证过
+             //         var authMethodId = res.data[0].low[i].id;
+             //         $.ajax({
+             //             async : false,
+             //             type:"GET",
+             //             data:{
+             //                 authMethodId:authMethodId,
+             //                 authType:1
+             //             },
+             //             url:'/HTEIP-page/oauthDetail/getAuthStatus.htm',
+             //             cache:false,
+             //             dataType:"json",
+             //             contentType:"application/json;charset=utf-8",
+             //             success:function(response){
+             //                 if(response.code == '-1'){
+             //                     tr += '<td>' +
+             //                         '<p><i class="icon-shield orange"></i><span class="cc-name">'+res.data[0].high[i].authName+'</span><span class="cc-info gray">未认证</span></p>' +
+             //                         '</td>' +
+             //                         '<td><a href="javascript:" class="btn btn-small btn-orange">立即认证</a></td>';
+             //
+             //                     tr += '</tr>';
+             //
+             //                     $("#pra").append(tr);
+             //                     //给立即认证按钮点击事件跳转到认证页面
+             //                     $('.btn-orange').click(function () {
+             //                         //window.location.href = '/HTEIP-page/oauth/cc_personal.html';
+             //
+             //                     })
+             //                 }else{
+             //                     tr += '<td class="backgroundColor">' +
+             //                         '<p><i class="icon-check green"></i><span class="cc-name">'+res.data[0].high[i].authName+'</span><span class="cc-info gray"></span></p>' +
+             //                         '</td>' +
+             //                         '<td class="backgroundColor"><a href="javascript:" class="btn btn-small btn-normal">已认证</a></td>';
+             //
+             //                     tr += '</tr>';
+             //
+             //                     $("#pra").append(tr);
+             //
+             //                 }
+             //             },
+             //             error:function(err){
+             //                 console.log(err.msg);
+             //             }
+             //
+             //         });
+             //     }
+             // }
+             
+         },
+         error:function(err){
+             console.log(err.msg);
+         }
+
+     });
+     //认证状态按钮
+    
+
+ });
+ 
+ </script>
+</body>
+
+
+</html>
+

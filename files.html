@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+ <title>湖北省工商行政管理局_首页</title>
+ <link rel="shortcut icon" href="images/ico.png" />
+ <link rel="stylesheet" type="text/css" href="styles/common.css" />
+ <link rel="stylesheet" type="text/css" href="styles/uc.css" />
+ <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <style>
+        .show{
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+     <div class="where">
+         <h2 class="t1"><b>完善信息</b></h2>
+         <div class="crumbs"><a href="#" class="home">用户中心</a>/<span class="current">完善信息</span></div>
+     </div>
+     <div class="pane">
+         <div class="note hide" >
+               <p>您还不是开发者，只有是开发者的信息才会在这里显示。<a href="javascript:" class="btn btn-small fr" id="renz">去申请</a></p>
+           </div>
+         <div class="jr-forms hide hello">
+               <ul>
+                    <li>
+                         <label style="width: 10em" >姓名</label>
+                         <input type="text" class="inp" id="name" disabled style="min-width: 250px" >
+                    </li>
+                    <li>
+                         <label style="width: 10em" >电话</label>
+                         <input type="tel" class="inp" style="min-width: 250px" disabled id="tel">
+                    </li>
+                   <li>
+                       <label style="width: 10em">企业名称</label>
+                       <input type="text" class="inp" style="min-width: 250px" disabled id="corName">
+                   </li>
+                   <li>
+                       <label style="width: 10em">统一社会信用代码</label>
+                       <input type="text" class="inp" style="min-width: 250px" disabled id="code">
+                   </li>
+                   <li>
+                       <label style="width: 10em">营业执照上传</label>
+                       <a href="javascript:;" class="btn btn-small btn-lakeblue " id="img" >点击查看</a>
+                   </li>
+               </ul>
+
+          </div>
+         <div class="jr-forms hide hehe">
+             <ul>
+                 <li>
+                     <label style="width: 10em" >姓名</label>
+                     <input type="text" class="inp"  value="" style="min-width: 250px" disabled id="firstName">
+                 </li>
+                 <li>
+                     <label style="width: 10em" >电话</label>
+                     <input type="tel" class="inp" style="min-width: 250px" disabled id="tel1">
+                 </li>
+                 <li>
+                     <label style="width: 10em">企业名称</label>
+                     <input type="text" class="inp" style="min-width: 250px" disabled id="legelEntername">
+                 </li>
+                 <li>
+                     <label style="width: 10em">统一社会信用代码</label>
+                     <input type="text" class="inp" style="min-width: 250px"  disabled id="code1">
+                 </li>
+                 <li>
+                     <label style="width: 10em">营业执照</label>
+                     <a href="javascript:;" class="btn btn-small btn-lakeblue " id="imgCheck" >点击查看</a>
+                 </li>
+             </ul>
+
+         </div>
+         <div class="btns hide">
+             <input type="button" class="btn"  id="submit" value="审核中">
+         </div >
+     </div>
+ <!--js-->
+     <script type="text/javascript" src="js/iframeResizer.contentWindow.min.js"></script>
+     <script type="text/javascript" src="layer/layer.js"></script>
+     <script type="text/javascript" src="../core/miniui/miniui.js"></script>
+     <script type="text/javascript" src="../core/script/validate.js"></script>
+     <script type="text/javascript" src="../core/fileupload/fileupload.js"></script>
+ <script>
+ //Dom option
+ $(document).ready(function() {
+     //判断是否为开发者函数
+     var develop;
+     function deve(){
+         $.ajax({
+             async : false,
+             type:"POST",
+             url:'/HTEIP-page/userDev/isAuthed.htm',
+             cache:false,
+             dataType:"json",
+             contentType:"application/json;charset=utf-8",
+             success:function(res){
+                 console.log(res);
+                 develop = res.code;
+             },
+             error:function(err){
+                 console.log(err.msg);
+             }
+
+         });
+         return develop;
+     }
+
+     //判断是否为开发者页面展示
+     console.log(deve());
+     if(deve() == "200"){
+         $(".note").removeClass("hide").addClass("show").siblings().removeClass("show").addClass("hide");;
+         $("#renz").click(function(){
+             window.location.href = "/HTEIP-page/oauth/deve.html";
+         });
+
+     }else if(deve() == "1"){
+         $.ajax({
+             async : false,
+             type:"GET",
+             url:'/HTEIP-page/userDev/getDeveloperInfoByUserId.htm',
+             cache:false,
+             dataType:"json",
+             contentType:"application/json;charset=utf-8",
+             success:function(res){
+                 var url = res.eleLicense;
+                 url = url.replace('fileupload/downloadfile', 'nonlogin/fileupload/downloadfile');
+                 console.log(url);
+                 var ImgUrl = 'http://localhost/HTEIP-page/'+url;
+                 $(".hello").removeClass("hide").addClass("show").siblings().removeClass("show").addClass("hide");
+                 $("#name").val(123);
+                 $("#firstName").val(res.userName);
+                 $("#tel").val(res.phoneNumber);
+                 $("#corName").val(res.legelEntername);
+                 $("#code").val(res.unitCode);
+                 $("#img").click(function () {
+                     console.log("图片");
+                     top.layer.open({
+                         title:"营业执照",
+                         type: 1,
+                         area: ['600px', '560px'],
+                         shade:0.4,
+                         shadeClose:true,
+                         content: '<div id="" class="layui-layer-content"><div id="tong" class="hide layui-layer-wrap" style="display: block;"><img width="550" height="500" src="'+ImgUrl+'"></div></div>'
+                     })
+                 });
+             },
+             error:function(err){
+                 console.log(err.msg);
+             }
+
+         });
+
+
+     }else if(deve() == "0"){
+         $.ajax({
+             async : false,
+             type:"GET",
+             url:'/HTEIP-page/userDev/getDeveloperInfoByUserId.htm',
+             cache:false,
+             dataType:"json",
+             contentType:"application/json;charset=utf-8",
+             success:function(res){
+                 var url = res.eleLicense;
+                 url = url.replace('fileupload/downloadfile', 'nonlogin/fileupload/downloadfile');
+                 console.log(url);
+                 var ImgUrl = 'http://localhost/HTEIP-page/'+url;
+                 $(".hehe").removeClass("hide").addClass("show").siblings().removeClass("show").addClass("hide");
+                 $("#firstName").val(123);
+                 $("#firstName").val(res.userName);
+                 $("#tel1").val(res.phoneNumber);
+                 $("#legelEntername").val(res.legelEntername);
+                 $("#code1").val(res.unitCode);
+                 $("#imgCheck").click(function () {
+                     console.log("图片");
+                     top.layer.open({
+                         title:"营业执照",
+                         type: 1,
+                         area: ['600px', '560px'],
+                         shade:0.4,
+                         shadeClose:true,
+                         content: '<div id="" class="layui-layer-content"><div id="tong" class="hide layui-layer-wrap" style="display: block;"><img width="550" height="500" src="'+ImgUrl+'"></div></div>'
+                     })
+                 });
+                 $(".btns").css("display","block");
+             },
+             error:function(err){
+                 console.log(err.msg);
+             }
+
+         });
+     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ });
+ </script>
+</body>
+
+</html>

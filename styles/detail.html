@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>湖北省工商行政管理局_首页</title>
+    <link rel="shortcut icon" href="images/ico.png" />
+    <link rel="stylesheet" type="text/css" href="styles/common.css" />
+    <link rel="stylesheet" type="text/css" href="styles/uc.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/simple-line-icons/2.4.1/css/simple-line-icons.css">
+    <style type="text/css">
+        table.state th,
+        table.state td {
+            padding: 10px;
+        }
+        
+        .jr-forms>ul>li {
+            padding: 5px;
+        }
+        
+        .item-info {
+            border: 1px solid #ddd;
+            background-color: #fff;
+            border-radius: 3px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, .05);
+        }
+        
+        .item-info table {
+            margin: 10px 0;
+        }
+        
+        .item-info .t3 {
+            margin-top: 10px;
+        }
+        
+        .license {
+            border: 4px double #ddd;
+            padding: 30px;
+        }
+        
+        .license img {
+            display: inline-block;
+            width: 100%;
+        }
+        
+        table.state {
+            border-left: 3px solid #a3bde2;
+        }
+        
+        table.state tbody th {
+            color: #058;
+        }
+    </style>
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+</head>
+
+<body>
+<div class="where">
+    <h2 class="t1"><b>我的企业</b></h2>
+    <div class="crumbs"><a href="#" class="home">用户中心</a>/<span class="current">我的企业</span></div>
+</div>
+<div class="grid">
+    <div class="item-info">
+        <h2 class="t2"><b></b></h2>
+        <table class="state border">
+            <col style="width: 15%">
+            <col style="width: 85%">
+            <tbody>
+            <tr>
+                <th>统一社会信用代码</th>
+                <td id="unicode"></td>
+            </tr>
+            <tr>
+                <th>类型</th>
+                <td id="type"></td>
+            </tr>
+            <tr>
+                <th>法定代表人</th>
+                <td id="legalPersonName"></td>
+            </tr>
+            <tr>
+                <th>注册资本</th>
+                <td id="registerMoney"></td>
+            </tr>
+            <tr>
+                <th>成立日期</th>
+                <td id="victoryDate"></td>
+            </tr>
+            <tr>
+                <th>营业期限自</th>
+                <td id="businessStart"></td>
+            </tr>
+            <tr>
+                <th>营业期限至</th>
+                <td id="businessEnd"></td>
+            </tr>
+            <tr>
+                <th>登记机关</th>
+                <td id="registerDept"></td>
+            </tr>
+            <tr>
+                <th>核准日期</th>
+                <td id="authDate"></td>
+            </tr>
+            <tr>
+                <th>登记状态</th>
+                <td id="registerState"></td>
+            </tr>
+            <tr>
+                <th>住所</th>
+                <td id="horseAddress"></td>
+            </tr>
+            <tr>
+                <th>营业范围</th>
+                <td id="businessScope"></td>
+            </tr>
+            </tbody>
+        </table>
+        <h3 class="t3"><b>营业执照照片</b></h3>
+        <div class="license">
+            <img src="" alt="">
+        </div>
+        <div class="btns"><a href="javascript:" class="btn"><i class="icon-arrow-left-circle vm"></i>&emsp;返回</a></div>
+    </div>
+</div>
+<!--js-->
+<script type="text/javascript" src="js/iframeResizer.contentWindow.min.js"></script>
+<script type="text/javascript" src="js/layer.js"></script>
+<script>
+    //Dom option
+    $(document).ready(function() {
+        var id = sessionStorage.getItem("id");
+        console.log(id);
+        $.ajax({
+            type:"GET",
+            data:{
+                legalId:id,
+            },
+            url:"/HTEIP-page/oauthDetail/getLegalDetailById.htm",
+            dataType:"json",
+            success:function(res){
+                console.log(res);
+                $(".t2 b").text(res.data.legelEnterName);
+                $("#unicode").text(res.data.unitCode);
+                $("#type").text(res.data.legalType);
+                $("#legalPersonName").text(res.data.legalPersonName);
+                $("#registerMoney").text(res.data.registerMoney);
+                $("#victoryDate").text(res.data.victoryDate);
+                $("#businessStart").text(res.data.businessStart);
+                $("#businessEnd").text(res.data.businessEnd);
+                $("#registerDept").text(res.data.registerDept);
+                $("#authDate").text(res.data.authDate);
+                $("#businessScope").text(res.data.businessScope);
+                $("#horseAddress").text(res.data.horseAddress);
+                
+            }
+
+        });
+        $(".btns").click(function () {
+            history.back(-1);
+        });
+
+    });
+</script>
+</body>
+
+</html>

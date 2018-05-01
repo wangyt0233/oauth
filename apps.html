@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>湖北省工商行政管理局_首页</title>
+<link rel="shortcut icon" href="images/ico.png" />
+<link rel="stylesheet" type="text/css" href="styles/common.css" />
+<link rel="stylesheet" type="text/css" href="styles/uc.css" />
+<link rel="stylesheet" type="text/css" href="styles/layer.css" />
+<style type="text/css">
+.apps li a {
+	display: block;
+	width: 120px;
+	text-align: center;
+}
+.apps .icon {
+	display: block;
+	width: 64px;
+	height: 64px;
+	margin: 0 auto 6px;
+	line-height: 64px;
+	font-size: 48px;
+}
+.apps .icon img {
+	width: 48px;
+	vertical-align: middle;
+}
+.add-item .icon {
+	color: #ccc;
+}
+.apps li a span {
+	display: inline-block;
+	max-width: 6em;
+	line-height: 20px;
+}
+</style>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+</head>
+
+<body>
+<div class="jr-forms hide">
+		<ul >
+		</ul>
+		<div class="btns">
+			<a class="btn" id="authLogin">授权登陆</a> 
+		</div>
+	</div>
+    <div class="where">
+     <h2 class="t1"><b>我的应用</b></h2>
+     <div class="crumbs"><a href="#" class="home">用户中心</a>/<span class="current">我的应用</span></div>
+    </div>
+    <div class="grid">
+</div>
+
+<script type="text/javascript" src="js/iframeResizer.contentWindow.min.js"></script> 
+<script type="text/javascript" src="js/layer.js"></script> 
+<script>
+//Dom option
+$(document).ready(function() {
+    //展示数据
+    $.ajax({
+        type:"GET",
+        url:'/HTEIP-page/OauthClientService/getUserAppList.htm',
+        cache:false,
+        dataType:"json",
+        contentType:"application/json;charset=utf-8",
+        success:function(res){
+            var html = '';
+            for(var i = 0;i<res.data.length;i++){
+            	var style="";
+            	if(i==0) style="pane-bdt-green";
+            	if(i==1) style="pane-bdt-orange";
+            	if(i==2) style="pane-bdt-blue";
+            	var cHtml = '';
+               	for (var j = 0; j < res.data[i].appList.length; j++) {
+                	if(res.data[i].appList[j].typeName == res.data[i].typeName){
+                		var url=res.data[i].appList[j].loginUrl;
+                    	cHtml+=' <li><a href="#" onclick=userAppCallBack("'+res.data[i].appList[j].clientId+
+                    			'","'+url+'","'+res.data[i].appList[j].existDept+
+                    			'");><i class="icon"><img src="images/uc/信用.png" alt=""></i><span>'
+                    			+res.data[i].appList[j].appName+'</span></a></li>';
+    				}
+                }
+                html +='<div class="col"><div class="pane '+style+'"><h3 class="t3"><b>'
+                +res.data[i].typeName+'</b></h3><ul class="list-a h apps">'+cHtml+'</ul></div></div>';
+            }
+            
+            $(".grid").html(html);
+        },
+        error:function(err){
+            $("p.tips").text(err.msg);
+        }
+
+    });
+});
+function userAppCallBack(clientId,redirect_uri,existDept){
+	if(existDept == '1'){
+		rtnDate(clientId,redirect_uri);
+	}else{
+		 var url='/HTEIP-page/OauthClientService/userAppCallBack.htm?'+
+		'clientId='+clientId+
+		'&url='+redirect_uri;
+		window.open(url);
+	}
+}
+
+function rtnDate(clientId,redirect_uri){
+	$.ajax({
+		url:"/HTEIP-page/OauthJrService/returnOpenidList.htm",
+		type:"post",
+		data:{"clientId":clientId},
+		dataType:"json",
+		success:function(datas){
+			if(datas.code == 200 ){
+				var html="";
+				for(i=0;i<datas.data.length;i++){
+					html+='<li> <input id="'+datas.data[i].openid+'" name ="openid" checked="checked" type="checkbox"  value="'+datas.data[i].openid+'"><label for="'+datas.data[i].openid+'">'+datas.data[i].name+'</label></li>';
+				}
+				$('.jr-forms ul').html(html);
+				layer.open({
+					type: 1,
+					shade: false,
+					title: '返回用户信息选择',
+					area: '400px',
+					content: $('.jr-forms')
+			   	});	
+				var openid=[];
+				$("input[type=checkbox]:checked").each(function(){ //由于复选框一般选中的是多个,所以可以循环输出选中的值
+					openid.push($(this).val());
+				});
+				var url='/HTEIP-page/OauthClientService/userAppCallBack.htm?clientId='+clientId+'&openid='+openid+'&url='+redirect_uri;
+      				$("#authLogin").attr("href",url);
+      				$("#authLogin").attr("target","_blank");
+			}
+		}
+	});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- miniui组件构成页面请使用html4标准文档声明，否则有可能出现皮肤样式错乱失效 -->
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+ <meta name="renderer" content="webkit" />
+ <!-- 以上3个meta标签为必须，只能放在head内部最上面，其他内容标签之前，否则各种兼容性问题，后果自负！ -->
+ <title>EIP</title>
+ <!-- miniui样式 -->
+ <link href="js/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css">
+ <link href="js/miniui/themes/default/large-mode.css" rel="stylesheet" type="text/css">
+ <link href="js/miniui/themes/icons.css" rel="stylesheet" type="text/css">
+ <link href="js/miniui/themes/pure/skin.css" rel="stylesheet" type="text/css">
+ <!-- 重构公用样式  -->
+ <link href="styles/common.css" rel="stylesheet" type="text/css">
+ <link href="styles/custom.css" rel="stylesheet" type="text/css">
+ <!-- 图标库CDN -->
+ <link href="https://cdn.bootcss.com/MaterialDesign-Webfont/2.0.46/css/materialdesignicons.min.css" rel="stylesheet" type="text/css">
+ <link href="https://cdn.bootcss.com/pixeden-stroke-7-icon/1.2.3/dist/pe-icon-7-stroke.min.css" rel="stylesheet" type="text/css">
+ <!-- 页面自定义样式 -->
+ <style>
+  .mini-forms li .mini-textbox-border,
+  .mini-forms li .mini-textbox {
+   width: 400px;
+   /*这里的宽度是根据父级页面设置的弹出层宽度定义的，具体操作自己斟酌*/
+  }
+
+ </style>
+ <!-- 低版本ie的处理 -->
+ <!--[if lt IE 9]>
+ <script type="text/javascript" src="js/html5shiv.min.js"></script>
+ <script type="text/javascript" src="js/respond.min.js"></script>
+ <![endif]-->
+ <!-- jq&miniui -->
+ <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+ <script type="text/javascript" src="js/miniui/miniui.js"></script>
+</head>
+
+<body>
+<!-- 单列表单开始 -->
+    <div id="form1" class="mini-forms">
+        <ul>
+            <li>
+                <label>手机号码：</label>
+                <input  id="textbox1" name="phoneNumber" class="mini-textbox" required="true" emptyText="请输入" requiredErrorText="帐号不能为空" />
+            </li>
+            <li>
+                <label>密码：</label>
+                <input id="textbox2" name="password" class="mini-password" required="true" emptyText="请输入密码" requiredErrorText="密码不能为空" vtype="minLength:6" />
+            </li>
+            <li>
+                <label>再一次确认密码：</label>
+                <input id="textbox3" name="comfirmPassword" class="mini-password" required="true" emptyText="请再次输入密码" requiredErrorText="两次密码必须一致" />
+            </li>
+            
+        </ul>
+        <div class="btns">
+            <button class="btn" onclick="onOk()">确认</button>
+            <input type="button" class="btn btn-normal" onclick="onCancel()" value="取消">
+ </div>
+</div>
+    <!-- 单列表单结束 -->
+    <!--js-->
+    <script>
+        //mini初始化
+        mini.parse();
+        var form = new mini.Form("#form1");
+        function SaveData() {
+            var o = form.getData();
+            form.validate();
+            var pwdVal = o.password;
+            var repwdVal = o.comfirmPassword;
+            //console.log(o.password+", "+o.comfirmPassword);
+            if (form.isValid() == false) {
+                mini.showTips({
+                    content: "手机号码与密码不能为空！",
+                    state: "danger",
+                    x: "center",          //left|center|right
+                    y: "center"         //top|center|bottom
+                });
+                return;
+            }else if(pwdVal != repwdVal) {
+                mini.showTips({
+                    content: "两次密码必须输入一致！",
+                    state: "danger",
+                    x: "center",          //left|center|right
+                    y: "center"          //top|center|bottom
+                });
+                return;
+            } else {
+                var json = mini.encode(o);
+                console.log(json);
+                $.ajax({
+                    url: "http://localhost/HTEIP-page/security/addHuman.htm",
+                    type: 'post',
+                    data:json,
+                    dataType: 'json',
+                    contentType: 'application/json;charset=utf-8',
+                    cache: false,
+                    success: function (text) {
+                        console.log(text);
+                        CloseWindow("save");
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(jqXHR.responseText);
+                        CloseWindow();
+                    }
+                });
+            }
+        }
+        
+        //是否确认
+        function CloseWindow(action) {
+            if (action == "close" || form.isChanged()) {
+                if (confirm("数据被修改了，是否先保存？")) {
+                    return false;
+                }
+            }
+            if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+            else window.close();
+        }
+        function onOk(e) {
+            SaveData();
+        }
+        function onCancel(e) {
+            CloseWindow("cancel");
+        }
+
+    </script>
+</body>
+
+</html>

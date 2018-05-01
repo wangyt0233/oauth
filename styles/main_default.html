@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>湖北省工商行政管理局_首页</title>
+    <link rel="shortcut icon" href="images/ico.png" />
+    <link rel="stylesheet" type="text/css" href="styles/common.css" />
+    <link rel="stylesheet" type="text/css" href="styles/uc.css" />
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+</head>
+
+<body>
+    <div class="where">
+        <h2 class="t1"><b>完善信息</b></h2>
+        <div class="crumbs"><a href="#" class="home">用户中心</a>/<span class="current">完善信息</span></div>
+    </div>
+    <div class="pane">
+        <div class="note mb10 show" id="note1" style="padding:0;opacity: 0;margin-bottom: 0;height: 0;">
+            <p>"您还没有实名认证，只有实名认证后的企业才会在这里显示"<a href="javascript:" class="btn btn-small fr" id="renz">实名认证</a></p>
+        </div>
+        <div id="xiu" style="height: 0;opacity:0;">
+            <div class="note" id="note2">
+                <p>基本信息展示</p>
+            </div>
+            <div class="jr-forms ">
+                <ul>
+                    <li>
+                        <label>姓名</label>
+                        <input type="text" class="inp name" disabled >
+                    </li>
+                    <li>
+                        <label>身份证号码</label>
+                        <input type="text" class="inp code" disabled>
+                    </li>
+                    <li>
+                        <label>绑定手机</label>
+                        <input type="text" class="inp phoneNumber" disabled>
+                    </li>
+                    <li>
+                        <label>性别</label>
+                        <input type="text" class="inp sex" disabled>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+<!--js--> 
+<script type="text/javascript" src="js/iframeResizer.contentWindow.min.js"></script> 
+<script>
+//Dom option
+$(document).ready(function() {
+    $.ajax({
+        async: false,
+        type:"GET",
+        url:"/HTEIP-page/oauthDetail/getHumanDetail.htm",
+        dataType:"json",
+        success:function(res){
+            console.log(res.data);
+            sessionStorage.setItem("phoneNum",res.data.phoneNumber);
+            sessionStorage.setItem("name",res.data.userRealName);
+            if(res.code == "200"){
+                if(!res.data.userRealName || !res.data.cardNumber ||!res.data.phoneNumber || !res.data.userSex  ){
+                    $("#note1").css({"opacity":"1","height":"58","margin-bottom":"10px",'padding':'10px'});
+                    $('#xiu').css({
+                        "opacity":'0',
+                        "height":'0'
+                    });
+                    $("#renz").click(function(){
+                        window.location.href = "/HTEIP-page/oauth/cc_natural.html";
+                    });
+                }else{
+                    $("#note1").css({"opacity":"0","height":"0","margin-bottom":"0",'padding':'0'});
+                    $('#xiu').css({
+                        "opacity":'1',
+                        "height":'298.67px'
+                    });
+                    $('.name').val(res.data.userRealName);
+                    $('.code').val(res.data.cardNumber);
+                    $('.phoneNumber').val(res.data.phoneNumber);
+                    if(res.data.userSex == 1){
+                        $(".sex").val("男");
+                    }else{
+                        $(".sex").val("女");
+                    }
+
+                }
+
+            }
+
+        }
+
+    })
+   
+});
+</script>
+</body>
+</html>

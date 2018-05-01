@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>湖北省工商行政管理局_首页</title>
+    <link rel="shortcut icon" href="images/ico.png" />
+    <link rel="stylesheet" type="text/css" href="styles/common.css" />
+    <link rel="stylesheet" type="text/css" href="styles/uc.css" />
+    <style>
+        .steps ul {
+            width: 600px;
+            margin: 0 auto;
+        }
+        
+        .steps li {
+            position: relative;
+            width: 33.33%;
+            padding: 15px 0;
+            line-height: 30px;
+            text-align: center;
+        }
+        
+        .steps li i {
+            display: block;
+            width: 50px;
+            height: 50px;
+            margin: 0 auto;
+            line-height: 50px;
+            font-weight: bold;
+            font-size: 24px;
+            font-style: normal;
+            background-color: #d9d9d9;
+            color: #797979;
+            border-radius: 100px;
+        }
+        
+        .steps li.current i {
+            background-color: #1b80d2;
+            color: #fff;
+        }
+        
+        .steps li.completed i {
+            font: 0/0 lx;
+            background: #36d2a5 url(images/uc/done.png) center no-repeat;
+            color: #fff;
+        }
+        
+        .steps li+li:before {
+            content: '';
+            position: absolute;
+            top: 38px;
+            left: -70px;
+            width: 140px;
+            height: 4px;
+            background-color: #eee;
+        }
+    </style>
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+</head>
+
+<body>
+<div class="where">
+    <h2 class="t1"><b>更换手机号</b></h2>
+    <div class="crumbs"><a href="#" class="home">用户中心</a>/<span class="current">更换手机号</span></div>
+</div>
+<div class="pane">
+    <div class="steps">
+        <ul class="h">
+            <li class="current"><i>1</i><span>验证手机号</span></li>
+            <li><i>2</i><span>用户名及密码</span></li>
+            <li><i>3</i><span>注册成功</span></li>
+        </ul>
+    </div>
+<!--    <div class="note">
+        <p>您好，温馨提示温馨提示温馨提示。</p>
+    </div>-->
+    <div class="jr-forms">
+        <ul>
+            <li style="padding-left: 320px">
+                <label for="">原手机号</label>
+                <input type="tel" class="inp">
+            </li>
+            <li style="padding-left: 320px">
+                <label for="">新手机号</label>
+                <input type="tel" class="inp">
+            </li>
+            <li style="padding-left: 320px">
+                <label for="">验证码</label>
+                <input type="text" class="inp">
+                <button class="btn btn-small btn-normal">点击获取</button>
+            </li>
+        </ul>
+        <div class="btns">
+            <button class="btn">修改</button>
+            <input type="reset" class="btn btn-normal">
+        </div>
+    </div>
+</div>
+<!--js-->
+<script type="text/javascript" src="js/iframeResizer.contentWindow.min.js"></script>
+<script>
+    //Dom option
+    $(document).ready(function() {
+
+
+    });
+</script>
+</body>
+
+</html>

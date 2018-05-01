@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>武汉佳软统一身份认证_用户中心</title>
+<link rel="shortcut icon" href="images/ico.png" />
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="plug-in/layui/layui.js"></script>
+<link rel="stylesheet" type="text/css" href="styles/common.css" />
+<link rel="stylesheet" type="text/css"
+	href="plug-in/layui/css/layui.css" media="all" />
+<link rel="stylesheet" type="text/css" href="styles/uc.css" />
+<link
+	href="https://cdn.bootcss.com/pixeden-stroke-7-icon/1.2.3/dist/pe-icon-7-stroke.min.css"
+	rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="styles/accredit.css" />
+<script>
+function getQueryString(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	var r = window.location.search.substr(1).match(reg);
+	if(r != null) {
+		return decodeURI(r[2]);
+	} else {
+		return null;
+	}
+}
+</script>
+</head>
+
+<body>
+
+	<!--添加应用-->
+	<div class="jr-forms hide">
+	<form action="" id="from" method="post">
+	
+		<ul >
+			
+		</ul>
+		<div class="btns">
+			<a href="javascript:;" class="btn" id="authLogin">授权登陆</a> 
+		</div>
+		</form>
+	</div>
+	<div class="wrap">
+		<div class="header">
+			<div class="w1200">
+				<h1>
+					<b class="nt">武汉佳软统一身份认证</b><strong>用户认证子系统</strong>
+				</h1>
+			</div>
+		</div>
+		<div class="content sign">
+			<div class="w1200 clearfix">
+				<div class="sign-banner fl"></div>
+				<div class="sign-box fr">
+					<h3>
+						<b>用户登录</b>
+					</h3>
+					<p class="tips">请输入您的用户名和密码！</p>
+					<ul class="signin" id="pe">
+						<li><i class="icon i-user"></i> <label for="">用户名</label> <input
+							type="text" class="inp" placeholder="请输入用户名" id="ipt1"></li>
+						<li><i class="icon i-lock"></i> <label for="">密&emsp;码</label>
+							<input type="password" class="inp" placeholder="请输入密码" id="ipt2">
+						</li>
+						<li><i class="icon i-checked"></i> <label for="">验证码</label>
+							<input type="text" class="inp" placeholder="请输入验证码" id="ipt3">
+							<span class="code"><img
+								src="http://localhost/HTEIP-page/security/captcha.htm"
+								alt="点击更换" title="点击更换" onclick="reImg()" id="IMG"></span></li>
+						<li>
+							<button class="btn btn-radius" id="Btn">授&emsp;权</button>
+						</li>
+					</ul>
+					<p class="login-link">
+						<!--  <a href="reset.html"><i class="pe-7s-help1 vm" style="font-size: 18px"></i>&ensp;忘记密码</a>
+                     <a href="reg.html" class="fr"><i class="pe-7s-add-user vm" style="font-size: 18px"></i>&ensp;帐号注册</a>
+                     -->
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+			<div class="copyright w1200">
+				<p>地址：湖北省武汉市武昌区东湖路145号&emsp;&emsp;邮编：430077</p>
+				<p>版权所有：湖北省工商行政管理局&emsp;&emsp;鄂ICP备05016233号&emsp;&emsp;技术支持：武汉佳软</p>
+				<p>建议您使用IE9+、webkit内核、极速模式浏览器，分辨率1280*800及以上浏览本网站。</p>
+				<div class="extra">
+					<div id="_ideConac">
+						<img src="images/red.png" alt="">
+					</div>
+					<div id="_span_jiucuo">
+						<img src="images/jiucuo.png" alt="">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<!--js-->
+		
+	<script>
+//Dom option
+
+$(document).ready(function() {
+	layui.use('layer', function() {
+		var $ = layui.jquery,
+		layer = layui.layer;
+	});
+	var response_type=getQueryString("response_type");
+	$.ajax({
+		url:"/HTEIP-page/OauthJrService/checkClientId.htm",
+		type:"post",
+		data:{"clientId":getQueryString("client_id")},
+		dataType:"json",
+		success:function(datas){
+			if(datas.code == 608 ){
+				layer.msg('您好，您未登录统一身份认证系统，请登录后发起请请求。');
+			}else if(datas.code == 609 ){
+				layer.msg('客户端ID未注册！请登陆开发者中心进行应用注册');
+			}else if(datas.code == 200 ){
+				rtnDate();
+			}
+		},
+	});
+	
+	function rtnDate(){
+		$.ajax({
+			url:"/HTEIP-page/OauthJrService/returnOpenidList.htm",
+			type:"post",
+			data:{"clientId":getQueryString("client_id")},
+			dataType:"json",
+			success:function(datas){
+				if(datas.code == 200 ){
+					if(response_type=='code'){
+						var html="";
+						var openid=datas.data;
+						for(i=0;i<openid.length;i++){
+							html+='<li> <input id="'+openid[i].openid+'" name ="openid" checked="checked" type="checkbox"  value="'+openid[i].openid+'"><label for="'+openid[i].openid+'">'+openid[i].name+'</label></li>';
+						}
+						$('.jr-forms ul').html(html);
+						layer.open({
+							type: 1,
+							shade: false,
+							title: '返回用户信息选择',
+							area: '400px',
+							content: $('.jr-forms')
+					   	});	
+						var url="";
+						var openid=[];
+						$("input[type=checkbox]:checked").each(function(){ //由于复选框一般选中的是多个,所以可以循环输出选中的值
+							openid.push($(this).val());
+						});
+	            		url='/HTEIP-page/OauthJrService/oauthResponseCode.htm?'+
+						'response_type='+getQueryString("response_type")+
+						'&redirect_uri='+getQueryString("redirect_uri")+
+						'&client_id='+getQueryString("client_id")+	
+						'&clientSecret='+getQueryString("clientSecret")+
+						'&code='+getQueryString("code")+
+						'&openid='+openid; 
+	            		$("#authLogin").attr("href",url);
+	            	}else{
+	            		window.location.href='/HTEIP-page/OauthJrService/clientRequestAccessTokenByRefresh.htm?'+
+						'refreshToken='+getQueryString("refreshToken")+'&client_id='+getQueryString("client_id");
+	            	}
+					
+				}
+			}
+		});
+	}
+	
+	
+	
+    //验证提示
+    $(".tips").show().addClass("animated flash");
+    $('#ipt1').focus();
+    $("#Btn").click(function(){
+        var $phoneNum = $('#ipt1').val();
+        var $pwd = $('#ipt2').val();
+        var $code = $('#ipt3').val();
+
+        //判断手机号码以及验证码是否符合规则
+        if(($phoneNum || $code || $pwd)==""){
+           $("p.tips").text("用户名和密码不能为空！");
+           return;
+        }else{
+            var pattern = /^1[345789]\d{9}$/;
+            if(!pattern.test($phoneNum)  || $phoneNum.length != 11){
+                $("p.tips").text("请输入11位数的正确手机号码！");
+                return;
+            }else if($pwd.length < 6 || $pwd.length > 11){
+                $("p.tips").text("密码格式不正确，请输入6到11位的密码！");
+                return;
+            }
+        }
+        
+        $.ajax({
+            type:"GET",
+            url:'http://localhost/HTEIP-page/security/doLogin.htm',
+            data:{
+                phoneNumber:$phoneNum,
+                captchaCode:$code,
+                password:$pwd
+            },
+            cache:false,
+            dataType:"json",
+            contentType:"application/json;charset=utf-8",
+            success:function(res){
+                if(res.code == '200'){
+                	rtnDate();
+                }else{
+                	$(".tips").text(res.msg);
+                    reImg();
+                }
+            },
+            error:function(err){
+            	$("p.tips").text(err.msg);
+                reImg();
+            }
+        });
+    });
+});
+
+</script>
+</body>
+</html>

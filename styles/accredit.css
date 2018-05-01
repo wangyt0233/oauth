@@ -1,0 +1,195 @@
+.sign {
+	padding: 80px 0;
+	background: #b1dffe;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(left, #f2fcfe, #b1dffe);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(left, #f2fcfe, #b1dffe); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.sign-banner {
+	width: 720px;
+	height: 480px;
+	background: url(../images/uc/login_bg.png) center no-repeat;
+	background-size: 640px auto;
+}
+.sign-box {
+	position: relative;
+	width: 400px;
+	height: 400px;
+	padding: 40px;
+	background-color: #fff;
+	box-shadow: 0 15px 55px rgba(0,153,255,.2);
+	border-radius: 5px;
+}
+.sign-box h2 {
+	height: 20px;
+	border-bottom: 4px double #ddd;
+	text-align: center;
+	margin: -10px 0 26px;
+}
+.sign-box h2 b {
+	position: relative;
+	display: inline-block;
+	padding: 0 35px;
+	line-height: 40px;
+	font-size: 20px;
+	background-color: #fff;
+	color: #058;
+}
+.sign-box h2 b:before, .sign-box h2 b:after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 8px;
+	height: 8px;
+	border: 1px solid #ddd;
+	margin-top: -3px;
+	border: 1px solid #ddd;
+}
+.sign-box h2 b:after {
+	left: auto;
+	right: 0;
+}
+.sign-box h3 {
+	position: relative;
+	margin: 0 -40px;
+	padding: 0 0 20px;
+	line-height: 20px;
+}
+.sign-box h3 b {
+	display: inline-block;
+	border-left: 10px solid #f80;
+	padding-left: 20px;
+	font-size: 20px;
+	color: #f80;
+}
+.sign-box h3 b.blue {
+	border-left: 10px solid #52aae5;
+	color: #52aae5;
+}
+.signin li {
+	position: relative;
+	padding: 10px 0;
+}
+.signin li i {
+	position: relative;
+	float: left;
+	display: block;
+	width: 60px;
+	height: 60px;
+	margin-right: -60px;
+	line-height: 60px;
+	text-align: center;
+	font-size: 24px;
+	color: #ccc;
+}
+.signin li label {
+	display: none;
+	font: 0/0 lx;
+	color: transparent;
+}
+.signin li .inp {
+	display: block;
+	width: 320px;
+	height: 20px;
+	border: 1px solid #ddd;
+	padding: 19px 19px 19px 59px;
+	font: normal 16px/20px microsoft yahei, simhei;
+	background-color: #fff;
+}
+.signin li input.inp:focus {
+	outline: none;
+	border: 1px solid #bde;
+	box-shadow: 0 0 15px rgba(0,102,255,.15);
+}
+.signin .code {
+	position: absolute;
+	top: 20px;
+	right: 0;
+	display: block;
+	width: 110px;
+	height: 40px;
+	padding: 0 10px;
+	border-left: 1px solid #ddd;
+	vertical-align: middle;
+}
+.signin .code img {
+	width: 100%;
+	height: 100%;
+}
+.signin .btn {
+	width: 100%;
+	margin: 0;
+	height: 60px;
+	line-height: 60px;
+	font-size: 20px;
+	background: #1e3c72;
+	background: -webkit-linear-gradient(to left, #2a5298, #1e3c72);
+	background: linear-gradient(to left, #2a5298, #1e3c72);
+	transition: all .2s ease-in;
+	box-shadow: 0 5px 15px rgba(0,85,136,.2);
+}
+.signin .btn:hover {
+	opacity: 1;
+	transform: translate(0, -1px);
+	box-shadow: 0 5px 15px rgba(0,85,136,.3);
+}
+.login-link {
+	padding: 10px;
+	line-height: 20px;
+}
+.login-link a {
+	margin: 0 5px;
+	color: #058;
+}
+.login-switch {
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: block;
+	width: 80px;
+	height: 80px;
+	background: url(../images/uc/login_switch.png) no-repeat;
+}
+.login-switch.other {
+	background: url(../images/uc/login_switch.png) 100% 0 no-repeat;
+}
+.tips {
+	display: none;
+	margin-top: -50px;
+	padding: 0 0 20px 100px;
+	line-height: 30px;
+	color: #f80;
+}
+@-webkit-keyframes flash {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+
+  25%, 75% {
+    opacity: 0;
+  }
+}
+
+@keyframes flash {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+
+  25%, 75% {
+    opacity: 0;
+  }
+}
+.flash {
+    -webkit-animation-name: flash;
+    animation-name: flash;
+}
+.animated {
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+}
+
+[class*=" pe-7s-"], [class^=pe-7s-] {
+	font-weight: bold!important;
+}

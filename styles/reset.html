@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>湖北省工商行政管理局_用户中心</title>
+    <link rel="shortcut icon" href="images/ico.png" />
+    <link rel="stylesheet" type="text/css" href="styles/common.css" />
+    <link rel="stylesheet" type="text/css" href="styles/uc.css" />
+    <link href="https://cdn.bootcss.com/pixeden-stroke-7-icon/1.2.3/dist/pe-icon-7-stroke.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+</head>
+
+    <body>
+        <div class="wrap">
+            <div class="header">
+                <div class="w1200">
+                    <h1><a href="login.html"><b class="nt">湖北省工商行政管理局</b><strong>认证平台</strong></a></h1>
+                    <div class="user-nav">
+                        <ul>
+                            <li class="current"><a href="#">首 页</a></li>
+                            <li><a href="#">账户设置</a></li>
+                            <li><a href="msg.html" target="mainFrame">消息中心<em>19</em></a></li>
+                            <li><a href="developer.html" target="_blank" class="extra"><i class="pe-7s-science"></i>&ensp;开放平台</a></li>
+                            <li class="line"><span></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="w1200">
+                    <div class="where">
+                        <h2 class="t1"><b>找回密码</b></h2>
+                        <div class="crumbs"><a href="#" class="home">用户中心</a>/<span class="current">找回密码</span></div>
+                    </div>
+                    <div class="pane">
+                        <div class="note">
+                            <p class="tc"><i class="pe-7s-info vm" style="font-size: 20px"></i>&emsp;<span>请输入您帐号绑定的手机号</span></p>
+                        </div>
+                        <div class="jr-forms">
+                            <ul>
+                                <li style="padding-left: 400px">
+                                    <label>手机</label>
+                                    <input type="tel" class="inp" id="ipt1" placeholder="请输入11位手机号码">
+                                </li>
+                                <li style="padding-left: 400px">
+                                    <label>验证码</label>
+                                    <input type="text" class="inp" id="ipt2" placeholder="请输入验证码">
+                                    <img src="/HTEIP-page/security/captcha.htm" id="IMG" alt="验证码" class="mr10"><a href="javascript:;" id="toggle" >看不清换一张</a></li>
+                            </ul>
+                            <div class="btns">
+                                <a class="btn" href="javascript:;" id="btn">下一步</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="backtop"></div>
+                <div class="copyright w1200">
+    <p>地址：湖北省武汉市武昌区东湖路145号&emsp;&emsp;邮编：430077</p>
+    <p>版权所有：湖北省工商行政管理局&emsp;&emsp;鄂ICP备05016233号&emsp;&emsp;技术支持：武汉佳软</p>
+    <p>建议您使用IE9+、webkit内核、极速模式浏览器，分辨率1280*800及以上浏览本网站。</p>
+    <div class="extra">
+     <div id="_ideConac"><img src="images/red.png" alt=""></div>
+     <div id="_span_jiucuo"><img src="images/jiucuo.png" alt=""></div>
+    </div>
+   </div>
+  </div>
+        </div>
+ <!--js-->
+ <script type="text/javascript" src="js/iframeResizer.min.js"></script>
+ <script>
+ //Dom option
+ $(document).ready(function() {
+	//自动获取焦点
+     $('#ipt1').focus();
+     $("#toggle").click(function(){
+         reImg();
+     });
+     //找回密码
+     $("#btn").click(function(){
+         var $phoneNum = $('#ipt1').val();
+         var $pcode = $('#ipt2').val();
+         if(($phoneNum || $pcode)==""){
+             $(".tc span").text("手机号码和验证码不能为空!");
+             return;
+         }else{
+             var pattern = /^1[345789]\d{9}$/;
+             if(!pattern.test($phoneNum)  || $phoneNum.length != 11){
+                 $('.tc span').text("请输入有效的手机号码!");
+                 return;
+             }
+         }
+        $.ajax({
+             type:"GET",
+             url:'/HTEIP-page/security/forgetByPhoneFirst.htm',
+             data:{
+            	 phoneNumber:$phoneNum,
+                 captchaCode:$pcode
+             },
+             cache:false,
+             dataType:"json",
+             contentType:"application/json;charset=utf-8",
+             success:function(res){
+                 if(res.code == '200'){
+                	 var token = res.msg;
+                	 var number = $('#ipt1').val();
+                     window.location.href = "/HTEIP-page/oauth/reset1.html?toke="+token+"&num="+number;
+                     reImg();
+                 }else{
+                	 $('.tc span').text(res.msg);
+                	 reImg();
+                 }
+             },
+             error:function(err){
+            	 $('.tc span').text(err.msg);
+                 reImg();
+             }
+
+         }); 
+         
+     });
+
+     //菜单和框架
+     var t = $(".user-nav li, .my-menu li");
+     t.click(function() {
+         t.removeClass("current")
+         $(this).addClass("current");
+     });
+
+     //返回顶部
+     $(".backtop").click(function(){ $("html, body").animate({ scrollTop: 0 }, 500) });
+
+     function backTop() {
+         var st = $(document).scrollTop(),
+             gt = $(".content").offset().top;
+         st > gt ? $(".backtop").fadeIn(300) : $(".backtop").fadeOut(300);
+     }
+     $(window).bind("load scroll resize", backTop);
+
+ });
+ //验证码切换刷新
+ function reImg(){
+     $("#IMG").attr("src","/HTEIP-page/security/captcha.htm?r=" + Math.random());
+ }
+ </script>
+</body>
+
+</html>

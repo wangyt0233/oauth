@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>湖北省工商行政管理局_用户中心</title>
+<link rel="shortcut icon" href="images/ico.png" />
+<link rel="stylesheet" type="text/css" href="styles/common.css" />
+<link rel="stylesheet" type="text/css" href="styles/uc.css" />
+<link href="https://cdn.bootcss.com/pixeden-stroke-7-icon/1.2.3/dist/pe-icon-7-stroke.min.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+.sign {
+	padding: 80px 0;
+	background: #b1dffe;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(left, #f2fcfe, #b1dffe);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(left, #f2fcfe, #b1dffe); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.sign-banner {
+	width: 720px;
+	height: 480px;
+	background: url(images/uc/login_bg.png) center no-repeat;
+	background-size: 640px auto;
+}
+.sign-box {
+	position: relative;
+	width: 400px;
+	height: 400px;
+	padding: 40px;
+	background-color: #fff;
+	box-shadow: 0 15px 55px rgba(0,153,255,.2);
+	border-radius: 5px;
+}
+.sign-box h2 {
+	height: 20px;
+	border-bottom: 4px double #ddd;
+	text-align: center;
+	margin: -10px 0 26px;
+}
+.sign-box h2 b {
+	position: relative;
+	display: inline-block;
+	padding: 0 35px;
+	line-height: 40px;
+	font-size: 20px;
+	background-color: #fff;
+	color: #058;
+}
+.sign-box h2 b:before, .sign-box h2 b:after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 8px;
+	height: 8px;
+	border: 1px solid #ddd;
+	margin-top: -3px;
+	border: 1px solid #ddd;
+}
+.sign-box h2 b:after {
+	left: auto;
+	right: 0;
+}
+.sign-box h3 {
+	position: relative;
+	margin: 0 -40px;
+	padding: 0 0 20px;
+	line-height: 20px;
+}
+.sign-box h3 b {
+	display: inline-block;
+	border-left: 10px solid #f80;
+	padding-left: 20px;
+	font-size: 20px;
+	color: #f80;
+}
+.sign-box h3 b.blue {
+	border-left: 10px solid #52aae5;
+	color: #52aae5;
+}
+.signin li {
+	position: relative;
+	padding: 10px 0;
+}
+.signin li i {
+	position: relative;
+	float: left;
+	display: block;
+	width: 60px;
+	height: 60px;
+	margin-right: -60px;
+	line-height: 60px;
+	text-align: center;
+	font-size: 24px;
+	color: #ccc;
+}
+.signin li label {
+	display: none;
+	font: 0/0 lx;
+	color: transparent;
+}
+.signin li .inp {
+	display: block;
+	width: 320px;
+	height: 20px;
+	border: 1px solid #ddd;
+	padding: 19px 19px 19px 59px;
+	font: normal 16px/20px microsoft yahei, simhei;
+	background-color: #fff;
+}
+.signin li input.inp:focus {
+	outline: none;
+	border: 1px solid #bde;
+	box-shadow: 0 0 15px rgba(0,102,255,.15);
+}
+.signin .code {
+	position: absolute;
+	top: 20px;
+	right: 0;
+	display: block;
+	width: 110px;
+	height: 40px;
+	padding: 0 10px;
+	border-left: 1px solid #ddd;
+	vertical-align: middle;
+}
+.signin .code img {
+	width: 100%;
+	height: 100%;
+}
+.signin .btn {
+	width: 100%;
+	margin: 0;
+	height: 60px;
+	line-height: 60px;
+	font-size: 20px;
+	background: #1e3c72;
+	background: -webkit-linear-gradient(to left, #2a5298, #1e3c72);
+	background: linear-gradient(to left, #2a5298, #1e3c72);
+	transition: all .2s ease-in;
+	box-shadow: 0 5px 15px rgba(0,85,136,.2);
+}
+.signin .btn:hover {
+	opacity: 1;
+	transform: translate(0, -1px);
+	box-shadow: 0 5px 15px rgba(0,85,136,.3);
+}
+.login-link {
+	padding: 10px;
+	line-height: 20px;
+}
+.login-link a {
+	margin: 0 5px;
+	color: #058;
+}
+.login-switch {
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: block;
+	width: 80px;
+	height: 80px;
+	background: url(images/uc/login_switch.png) no-repeat;
+}
+.login-switch.other {
+	background: url(images/uc/login_switch.png) 100% 0 no-repeat;
+}
+.tips {
+	display: none;
+	margin-top: -50px;
+	padding: 0 0 20px 100px;
+	line-height: 30px;
+	color: #f80;
+}
+@-webkit-keyframes flash {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+
+  25%, 75% {
+    opacity: 0;
+  }
+}
+
+@keyframes flash {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+
+  25%, 75% {
+    opacity: 0;
+  }
+}
+.flash {
+    -webkit-animation-name: flash;
+    animation-name: flash;
+}
+.animated {
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+}
+
+[class*=" pe-7s-"], [class^=pe-7s-] {
+	font-weight: bold!important;
+}
+</style>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+</head>
+
+<body>
+    <div class="wrap">
+         <div class="header">
+             <div class="w1200">
+                <h1><a href="javascript:;"><b class="nt">湖北省工商行政管理局</b><strong>用户认证子系统</strong></a></h1>
+             </div>
+         </div>
+         <div class="content sign">
+                <div class="w1200 clearfix">
+                    <div class="sign-banner fl"></div>
+                    <div class="sign-box fr">
+                        <h3><b>用户登录</b></h3>
+                        <p class="tips" id="tips" >请输入您的用户名和密码！</p>
+                        <ul class="signin" id="pe">
+                             <li><i class="icon i-user"></i>
+                                  <label for="">用户名</label>
+                                  <input type="text" class="inp" placeholder="请输入用户名" id="ipt1">
+                             </li>
+                             <li><i class="icon i-lock"></i>
+                                  <label for="">密&emsp;码</label>
+                                  <input type="password" class="inp" placeholder="请输入密码" id="ipt2">
+                             </li>
+                             <li><i class="icon i-checked"></i>
+                                  <label for="">验证码</label>
+                                  <input type="text" class="inp" placeholder="请输入验证码" id="ipt3">
+                                  <span class="code"><img src="/HTEIP-page/security/captcha.htm" alt="点击更换" title="点击更换" onclick="reImg()" id="IMG"></span>
+                             </li>
+                             <li>
+                                  <button class="btn btn-radius" id="Btn">登&emsp;录</button>
+                             </li>
+                        </ul>
+                        <p class="login-link">
+                     <a href="reset.html"><i class="pe-7s-help1 vm" style="font-size: 18px"></i>&ensp;忘记密码</a>
+                     <a href="reg.html" class="fr"><i class="pe-7s-add-user vm" style="font-size: 18px"></i>&ensp;帐号注册</a>
+                    </p>
+                   </div>
+              </div>
+         </div>
+         <div class="footer">
+              <div class="copyright w1200">
+                   <p>地址：湖北省武汉市武昌区东湖路145号&emsp;&emsp;邮编：430077</p>
+                   <p>版权所有：湖北省工商行政管理局&emsp;&emsp;鄂ICP备05016233号&emsp;&emsp;技术支持：武汉佳软</p>
+                   <p>建议您使用IE9+、webkit内核、极速模式浏览器，分辨率1280*800及以上浏览本网站。</p>
+                   <div class="extra">
+                        <div id="_ideConac"><img src="images/red.png" alt=""></div>
+                        <div id="_span_jiucuo"><img src="images/jiucuo.png" alt=""></div>
+                   </div>
+              </div>
+         </div>
+    </div>
+
+<!--js--> 
+<script type="text/javascript" src="js/iframeResizer.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            //验证提示
+            $(".tips").show().addClass("animated flash");
+            $('#ipt1').focus();
+            $("#Btn").click(function(){
+                Login();
+            });
+        });
+        //按下回车键时实现登录
+        $("#ipt3").keydown(function(e){
+            var e = e || event,
+                keycode = e.which || e.keyCode;
+            if (keycode==13) {
+                Login();
+            }
+        });
+
+        //登录函数
+        function Login(){
+            var $phoneNum = $('#ipt1').val();
+            var $pwd = $('#ipt2').val();
+            var $code = $('#ipt3').val();
+            var pattern = /^1[345789]\d{9}$/;
+            //判断手机号码以及验证码是否符合规则
+            if(!$phoneNum){
+                $("p.tips").text("用户名不能为空！");
+                return;
+            }else if(!pattern.test($phoneNum) || $phoneNum.length != 11){
+                $("p.tips").text("请输入11位数的正确手机号码！");
+                return;
+            }else if(!$pwd){
+                $("p.tips").text("密码不能为空！");
+                return;
+            }else if($pwd.length < 6 || $pwd.length > 11){
+                $("p.tips").text("密码格式不正确，请输入6到11位的密码！");
+                return;
+            }else if(!$code){
+                $("p.tips").text("请输入验证码！");
+                return;
+            }else{
+                $("p.tips").text("信息正确！");
+            }
+
+            $.ajax({
+                type:"GET",
+                url:'/HTEIP-page/security/doLogin.htm',
+                data:{
+                    phoneNumber:$phoneNum,
+                    captchaCode:$code,
+                    password:$pwd
+                },
+                cache:false,
+                dataType:"json",
+                contentType:"application/json;charset=utf-8",
+                success:function(res){
+                    console.log(res);
+                    if(res.code == '200'){
+                        window.location.href = "/HTEIP-page/oauth/user_center.html";
+                        reImg();
+                    }else if(res.code == "-10"){
+                        $("#tips").text("手机号不存在");
+                        console.log(res);
+                        reImg();
+                    }else if(res.code == "-1"){
+                        $("#tips").text("手机号或密码不正确");
+                        reImg();
+                    }else if(res.code == "-9"){
+                        $("#tips").text(" 表单未填写完整");
+                        reImg();
+                    }else if(res.code == "-11"){
+                        $("#tips").text(" 账户被冻结");
+                        reImg();
+                    }else if(res.code == "-5"){
+                        $("#tips").text(" 请输入验证码");
+                        reImg();
+                    }else if(res.code == "-2"){
+                        $("#tips").text(" 验证码错误");
+                        reImg();
+                    }
+
+                },
+                error:function(err){
+                    $("p.tips").text(err.msg);
+                    reImg();
+                }
+
+            });
+        }
+        //验证码切换刷新
+        function reImg(){
+            $("#IMG").attr("src","/HTEIP-page/security/captcha.htm?r=" + Math.random());
+        }
+
+    </script>
+</body>
+</html>

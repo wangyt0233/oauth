@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- miniui组件构成页面请使用html4标准文档声明，否则有可能出现皮肤样式错乱失效 -->
+
+<head>
+     <meta charset="utf-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+     <meta name="renderer" content="webkit" />
+     <meta http-equiv="Access-Control-Allow-Origin" content="*">
+     <!-- 以上3个meta标签为必须，只能放在head内部最上面，其他内容标签之前，否则各种兼容性问题，后果自负！ -->
+     <title>EIP</title>
+     <!-- miniui样式 -->
+     <link href="js/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css">
+     <link href="js/miniui/themes/default/large-mode.css" rel="stylesheet" type="text/css">
+     <link href="js/miniui/themes/icons.css" rel="stylesheet" type="text/css">
+     <link href="js/miniui/themes/pure/skin.css" rel="stylesheet" type="text/css">
+     <!-- 重构公用样式 -->
+     <link href="styles/common.css" rel="stylesheet" type="text/css">
+     <link href="styles/custom.css" rel="stylesheet" type="text/css">
+     <!-- 图标库CDN -->
+     <link href="https://cdn.bootcss.com/MaterialDesign-Webfont/2.0.46/css/materialdesignicons.min.css" rel="stylesheet" type="text/css">
+     <link href="https://cdn.bootcss.com/pixeden-stroke-7-icon/1.2.3/dist/pe-icon-7-stroke.min.css" rel="stylesheet" type="text/css">
+     <!-- 页面自定义样式 -->
+    <style>
+         body {
+             background-color: #eee;
+         }
+         .mini-grid-cell.mini-grid-rightCell a.btn{
+          height: 32px;
+          line-height: 32px;
+         }
+    </style>
+     <!-- 低版本ie的处理 -->
+     <!--[if lt IE 9]>
+     <script type="text/javascript" src="js/html5shiv.min.js"></script>
+     <script type="text/javascript" src="js/respond.min.js"></script>
+     <![endif]-->
+     <!-- jq&miniui -->
+     <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+     <script type="text/javascript" src="js/miniui/miniui.js"></script>
+</head>
+
+<body>
+    <div id="layout" class="mini-layout">
+        <div region="center" class="mini-main">
+            <!-- 操作条开始 -->
+            <div class="mini-toolbar clearfix" style="margin-bottom: -1px">
+                <div class="fl">
+                    <a class="mini-button green" onclick="add()"><i class="mdi mdi-plus-circle"></i> 增加</a>
+                    <a class="mini-button orange" onclick="edit()"><i class="mdi mdi-pencil-circle"></i> 修改</a>
+                    <a class="mini-button orange" onclick="reset()"><i class="mdi mdi-pencil-circle"></i>密码重置</a>
+                    
+                </div>
+                <div class="fr">
+                    <input id="phoneNumber" class="mini-textbox" emptyText="手机号码" style="width:150px;" onenter="onKeyEnter" />
+                    <a class="mini-button" onclick="search()"><i class="mdi mdi-magnify gray"></i> 查询</a>
+                </div>
+            </div>
+            <!-- 操作条结束1111 -->
+            <!-- 数据列表开始23231 -->
+            <div id="datagrid1" class="mini-datagrid" style="width:100%;height:390px;"
+                 url="http://localhost/HTEIP-page/security/getHumanList.htm" ajaxType="GET"
+                 
+            >
+                <div property="columns">
+                    <div type="checkcolumn"></div>
+                    <div type="indexcolumn" headerAlign="center">序号</div>
+                    <div field="id" visible=false width="120" align="center" allowSort="true" headerAlign="center">
+                            自然人id/注册用户id
+                    </div>
+                    <div headerAlign="center"  align="center" field="phoneNumber" width="100">手机号码</div>
+                    <div headerAlign="center" align="center" field="createTime" width="100" allowSort="true">注册时间</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--js部分-->
+    <script>
+        //miniui初始化
+        mini.parse();
+        //数据列表
+        var grid = mini.get("datagrid1");
+        grid.load();
+
+        
+        //添加的事件弹层
+        function add() {
+            mini.open({
+                targetWindow: window,
+                url: "add.html",
+                title:"新增注册用户",
+                width: 627,
+                height: 300,
+                onload: function() {
+                    var iframe = this.getIFrameEl();
+                    var data = { action: "new" };
+                },
+                ondestroy: function(action) {
+                    grid.load();
+                }
+            });
+        }
+        //编辑
+        function edit() {
+            var row = grid.getSelected();
+            if (row) {
+                mini.open({
+                    url:"edit.html",
+                    title: "修改信息",
+                    width: 627,
+                    height: 300,
+                    onload: function () {
+                        var iframe = this.getIFrameEl();
+                        var data = { action: "edit", id: row.id };
+                        iframe.contentWindow.SetData(data);
+
+                    },
+                    ondestroy: function (action) {
+                        //var iframe = this.getIFrameEl();
+                        grid.reload();
+
+                    }
+                });
+
+            } else {
+                mini.alert("请选中一条记录！","提示");
+            }
+
+        }
+        //查询
+        function search() {
+            var key = mini.get("phoneNumber").getValue();
+            console.log(key);
+            grid.load({ phoneNumber : '13476830906' });
+        }
+        //重置密码
+        function reset(){
+            var row = grid.getSelected();
+            var id = row.id;
+            console.log(id);
+            var json = {
+                "id":id
+            };
+            json["type"]="resetPassword";
+            console.log(json);
+            if(row){
+                $.ajax({
+                    url: "http://localhost/HTEIP-page/security/getHumanSecurityById.htm",
+                    type: 'post',
+                    data: json,
+                    cache: false,
+                    dataType: 'json',
+                    contentType: 'application/json;charset=utf-8',
+                    success: function (text) {
+                            mini.showTips({
+                            content: "密码重置成功！",
+                            state: "success",
+                            x: "center",          //left|center|right
+                            y: "center"         //top|center|bottom
+                        });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        mini.showTips({
+                            content: textStatus,
+                            state: "danger",
+                            x: "center",          //left|center|right
+                            y: "center"         //top|center|bottom
+                        });
+                    }
+                });
+            }else {
+                mini.alert("请选中一条记录！","提示");
+            }
+        }
+        
+        //自定义宽高
+        $('#layout').width($(window).width() - 12).height($(window).height() - 12).css('margin', 6);
+        $(window).resize(function() {
+            $('#layout').width($(window).width() - 12).height($(window).height() - 12).css('margin', 6);
+        });
+    </script>
+</body>
+
+</html>
+
+

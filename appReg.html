@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>湖北省工商行政管理局_首页</title>
+    <link rel="shortcut icon" href="images/ico.png" />
+    <link rel="stylesheet" type="text/css" href="styles/common.css" />
+    <link rel="stylesheet" type="text/css" href="styles/uc.css" />
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <style>
+        span{
+            color:#2980b9;
+            padding-left:1em ;
+            margin-left: -5px;
+            margin-right: 70px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="where">
+    <h2 class="t1"><b>完善信息</b></h2>
+    <div class="crumbs"><a href="#" class="home">用户中心</a>/<span class="current">完善信息</span></div>
+</div>
+<div class="pane">
+    <div class="note">
+        <p>您好，请先完善您的个人信息。</p>
+    </div>
+    <div class="jr-forms">
+        <ul>
+            <li>
+                <label for="" style="width: 10em">应用名称</label>
+                <input type="text" class="inp" value="" style="min-width: 250px" id="name">
+            </li>
+            <li>
+                <label for="" style="width: 10em">显示名称</label>
+                <input type="text" class="inp" style="min-width: 250px " id="xian">
+            </li>
+            <li>
+                <label for="" style="width: 10em">应用描述</label>
+                <input type="text" class="inp" style="min-width: 250px" id="des">
+            </li>
+            <li>
+                <label for="" style="width: 10em">请求编码</label>
+                <input type="text" class="inp" style="min-width: 250px" id="encode" value="UTF-8" disabled>
+            </li>
+            <li>
+                <label for="" style="width: 10em">回调地址</label>
+                <input type="text" class="inp" style="min-width: 250px" id="url">
+            </li>
+            <li>
+                <label for="" style="width: 10em">登录地址</label>
+                <input type="text" class="inp" style="min-width: 250px" id="Loginurl">
+            </li>
+            <li>
+                <label for="" style="width: 10em">登录提交方式</label>
+                <select id="sel1" style="min-width: 250px;" class="inp">
+                    <option value="1">GET</option>
+                    <option value="0">POST</option>
+                </select>
+            </li>
+
+            <li>
+                <label for="" style="width: 10em">是否存在待办机构</label>
+                <select id="sel2"  style="min-width: 250px;" class="inp">
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                </select>
+            </li>
+            <li id="getInfo">
+                <label for="" style="width: 10em" >获取自然人信息</label>
+
+            </li>
+            <li id="cor">
+                <label for="" style="width: 10em">获取法人信息</label>
+            </li>
+        </ul>
+
+    </div>
+    <div class="btns">
+        <button class="btn" id="submit">提交</button>
+    </div>
+</div>
+<!--js-->
+<script type="text/javascript" src="js/iframeResizer.contentWindow.min.js"></script>
+<script>
+    //Dom option
+    $(document).ready(function() {
+        //获取信息
+        $.ajax({
+            async : false,
+            type:"POST",
+            url:'/HTEIP-page/OauthClientService/getUserInfoList.htm',
+            cache:false,
+            dataType:"json",
+            contentType:"application/json;charset=utf-8",
+            success:function(res){
+                console.log(res);
+                var person="";
+                var cor = '';
+                for(var i=0;i<res.data.length;i++){
+                    if(res.data[i].propertyCodeType == '1'){
+                        person += '<input name= "inter" type="checkbox" value="'+res.data[i].propertyCode +'"><span>'+res.data[i].propertyDescription +'</span>'
+                    }else if(res.data[i].propertyCodeType == '2'){
+                        cor += '<input name= "inter" type="checkbox" value="'+res.data[i].propertyCode+'"><span>'+res.data[i].propertyDescription+'</span>';
+                    }
+                }
+                $("#getInfo").append(person);
+                $("#cor").append(cor);
+
+            },
+            error:function(err){
+                console.log(err.msg);
+            }
+
+        });
+        
+        //注册表单
+        $("#submit").on('click',function () {
+            $des = $("#des").val();
+            $name = $('#name').val();
+            $xian = $('#xian').val();
+            $encode = $('#encode').val();
+            $redirectUrl = $("#url").val();
+            $loginUrl = $("#Loginurl").val();
+            $sel1 = $("#sel1 option:selected").val();
+            $sel2 = $("#sel2 option:selected").val();
+            var $getInfo = [];
+            $('#getInfo input[name="inter"]:checked').each(function () {
+                $getInfo.push($(this).val());
+            });
+            console.log($getInfo);
+            var  $cor =[];
+            $('#getInfo input[name="inter"]:checked').each(function () {
+                $cor.push($(this).val());
+            });
+            if(!$name){
+                $('.note p').text("应用名称不能为空！");
+                return;
+            }else if(!$xian){
+                $('.note p').text("显示应用名称不能为空！");
+                return;
+            }else if(!$redirectUrl){
+                $('.note p').text("回调地址不能为空！");
+                return;
+            }else if(!$loginUrl){
+                $('.note p').text("登录地址不能为空！");
+                return;
+            }else if(!$encode){
+                $('.note p').text("请求编码不能为空！");
+                return;
+            }else if(!$sel1){
+                $('.note p').text("请选择登录方式！");
+                return;
+            }else if(!$sel2){
+                $('.note p').text("请选择待办事项！");
+                return;
+            // }else if($getInfo.length> 0 ){
+            //     $('.note p').text("请选择自然人信息！");
+            //     return;
+            //  }else if($cor.length > 0){
+            //     $('.note p').text("请选择法人信息！");
+            //     return;
+            //
+                }else{
+                $('.note p').text("信息正确！");
+            }
+            var $chk_value =[];//定义一个数组
+            $('input[name="inter"]:checked').each(function(){
+                $chk_value.push($(this).val());
+            });
+            var str = $chk_value.join(",");
+            var pramas = {
+                applicationName:$name,
+                displayName:$xian,
+                applicationDescription:$des,
+                submitMethod:$sel1,
+                messageEncode:$encode,
+                redirectUrl:$redirectUrl,
+                loginUrl:$loginUrl,
+                existDept:$sel2,
+                userinfoParams:str
+            }
+            console.log(pramas);
+            $.ajax({
+                type:"POST",
+                url:'/HTEIP-page/OauthClientService/regApp.htm',
+                data:JSON.stringify(pramas),
+                cache:false,
+                dataType:"json",
+                contentType:"application/json;charset=utf-8",
+                success:function(res){
+                    if(res.code == "200"){
+                        window.location.href = "/HTEIP-page/oauth/apps.html";
+                    }else{
+                        $('.note p').text("提交失败！");
+                    }
+                },
+                error:function(err){
+                    console.log(err.msg);
+                }
+
+            });
+
+        });
+
+    });
+</script>
+</body>
+
+</html>
